@@ -30,5 +30,6 @@ typedef struct escolaM {
 
 
 int inserirInLista(ELEMENTO **iniLista, PERGUNTA info);
+void printLista(ELEMENTO *iniLista);
 
 #endif // HELPER_H_INCLUDED

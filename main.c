@@ -31,6 +31,10 @@ int main(){
 setlocale(LC_ALL,"Portuguese");
 int opcao;
 
+
+
+
+
 do{
     opcao=mainMenu();
     switch (opcao)
@@ -50,20 +54,4 @@ do{
 }while(opcao!=0);
 
 return 0;
-int main() {
-    setlocale(LC_ALL,"Portuguese");
-    ELEMENTO *iniLista=NULL;
-    PERGUNTA aux;
-    printf("Introduza os dados:\n 1-Nome\n");
-
-    printf("Tipo:\n");
-    scanf("%i",&aux.tipo);
-    printf("Categoria:\n");
-    scanf("%i",&aux.categoria);
-
-    inserirInLista(&iniLista, aux);
-
-    printLista(iniLista);
-
-    return 0;
 }
