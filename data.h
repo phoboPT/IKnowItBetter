@@ -2,15 +2,16 @@
 #define HELPER_H_INCLUDED
 #define STRING_LENGHT 100
 #include <stdio.h>
+
 //Estruturas
 typedef struct pergunta {
     int tipo;
     int categoria;
 } PERGUNTA;
 
-typedef struct Elem {
+typedef struct elem {
     PERGUNTA info;
-    struct Elem *seguintes;
+    struct elem *seguintes;
 } ELEMENTO;
 
 typedef struct opcao {
@@ -27,7 +28,17 @@ typedef struct escolaM {
     char pergunta[STRING_LENGHT];
 } ESCOLHAM;
 
+typedef struct jogador{
+    char nome[STRING_LENGHT];
+    char password[STRING_LENGHT];
+    int tipo;
+    int idade;
+    char username[STRING_LENGHT];
+    char nacionalidade[STRING_LENGHT];
+    char data[STRING_LENGHT];
+    int valorAcomulado;
 
+}JOGADOR;
 
 
 int inserirInLista(ELEMENTO **iniLista, PERGUNTA info);

@@ -1,15 +1,15 @@
 # depslib dependency file v1.0
-1587574360 source:c:\users\phobo\desktop\iknowitbetter\main.c
+1587578850 source:c:\users\phobo\desktop\iknowitbetter\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
 	<string.h>
 	"data.h"
 
-1587573528 c:\users\phobo\desktop\iknowitbetter\data.h
+1587578154 c:\users\phobo\desktop\iknowitbetter\data.h
 	<stdio.h>
 
-1587574729 source:c:\users\phobo\desktop\iknowitbetter\helper.c
+1587578824 source:c:\users\phobo\desktop\iknowitbetter\helper.c
 	"data.h"
 	<stdio.h>
 	<stdlib.h>

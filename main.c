@@ -27,30 +27,58 @@ int adminMenu() {
 
     return adminOpcao;
 }
+
 int main() {
     setlocale(LC_ALL,"Portuguese");
     int opcao;
     char nome[100], pass[100];
+    ELEMENTO * iniLista=NULL;
+
+
+
+
 
     do {
         opcao=mainMenu();
-        switch (opcao)
+        switch (opcao)        {
+        case 1: {
+            opcao=adminMenu();
+            switch(opcao) {
+            case 1: {
+                printf("case 1\n");
+                adicionarPergunta(&iniLista);
+                break;
+            }
+            case 2: {
+                printf("case 2\n");
+                  printLista(iniLista);
+                break;
+            }
+            case 3: {
+                printf("case 3\n");
+                break;
+            }
+            default: {
+                printf("default\n");
+                break;
+            }
 
-        {
-        case 1:
-            printf("Parte administrativa:\n");
-            printf("Realize o seu Login:\n");
+            }
             break;
-        case 2:
+        }
+        case 2: {
             printf("Vamos la começar a  jogar\n");
             printf("Realize o login do jogador:\n");
             break;
-        case 0:
+        }
+        case 0: {
             printf("A terminar o pograma...\n");
             break;
-
-        default:
+        }
+        default: {
             printf("Opção não existente...\n");
+            break;
+        }
         }
     } while(opcao!=0);
 
