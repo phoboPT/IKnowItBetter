@@ -30,7 +30,6 @@ int adminMenu() {
 int main() {
     setlocale(LC_ALL,"Portuguese");
     int opcao;
-    char nome[100], pass[100];
 
     do {
         opcao=mainMenu();
