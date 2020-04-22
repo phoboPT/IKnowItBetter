@@ -1,7 +1,9 @@
 #include "data.h"
+#include <stdio.h>
+#include <stdlib.h>
 //funçoes
 
-int inserirInLista(ELEMENTO **iniLista, INFO info){
+int inserirInLista(ELEMENTO **iniLista, PERGUNTA info){
     ELEMENTO *novo=NULL;
 
     novo =(ELEMENTO *)calloc(1, sizeof(ELEMENTO));
@@ -19,4 +21,16 @@ int inserirInLista(ELEMENTO **iniLista, INFO info){
         *iniLista=novo;
     }
     return 0;
+}
+
+void printLista(ELEMENTO *iniLista){
+    ELEMENTO *aux=NULL;
+    if(iniLista==NULL){
+        printf("Lista vazia\n");
+        return;
+    }
+  //  for(aux=iniLista; aux!=NULL; aux=aux->seguintes){
+  //      printf("%s- %i %i %i\n", aux->info.nome, aux->info.nCC, aux->info.telefone, aux->info.idade);
+   // }
+
 }

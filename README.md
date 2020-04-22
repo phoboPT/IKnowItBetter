@@ -1,2 +1,0 @@
-# IKnowItBetter
-Jogo de trivia

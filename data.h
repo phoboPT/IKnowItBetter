@@ -1,6 +1,7 @@
 #ifndef HELPER_H_INCLUDED
 #define HELPER_H_INCLUDED
 #define STRING_LENGHT 100
+#include <stdio.h>
 //Estruturas
 typedef struct pergunta {
     int tipo;
