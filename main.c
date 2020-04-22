@@ -31,12 +31,15 @@ int adminMenu() {
 int main() {
     setlocale(LC_ALL,"Portuguese");
     int opcao;
+<<<<<<< HEAD
     char nome[100], pass[100];
     ELEMENTO * iniLista=NULL;
 
 
 
 
+=======
+>>>>>>> 375795e92ff1ed32a64cc607671d0d0d57a920ee
 
     do {
         opcao=mainMenu();
