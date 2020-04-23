@@ -19,7 +19,7 @@ int adminMenu() {
     int adminOpcao=0;
     printf("------Parte Administrativa------\n");
     printf("1-Criar perguntas\n");
-    printf("2-Editar perguntas\n");
+    printf("2-Listar perguntas\n");
     printf("3-Remover perguntas\n");
     printf("0-Sair\n");
     scanf("%i", &adminOpcao);
@@ -28,18 +28,21 @@ int adminMenu() {
     return adminOpcao;
 }
 
+PERGUNTA adicionarPergunta() {
+    PERGUNTA aux;
+    printf("1-Escolha multipla   2- Resposta Direta   3-Verdadeiro/Falso\n");
+    printf("Categoria:\n");
+    scanf("%i",&aux.categoria);
+    printf("Tipo:\n");
+    scanf("%i", &aux.tipo);
+    }
+
 int main() {
     setlocale(LC_ALL,"Portuguese");
-    int opcao;
-<<<<<<< HEAD
+    int opcao, idPergunta;
     char nome[100], pass[100];
-    ELEMENTO * iniLista=NULL;
-
-
-
-
-=======
->>>>>>> 375795e92ff1ed32a64cc607671d0d0d57a920ee
+    ELEMENTO *iniLista=NULL;
+    PERGUNTA aux;
 
     do {
         opcao=mainMenu();
@@ -49,16 +52,20 @@ int main() {
             switch(opcao) {
             case 1: {
                 printf("case 1\n");
-                adicionarPergunta(&iniLista);
+                aux = adicionarPergunta();
+                inserirInLista(&iniLista, aux);
                 break;
             }
             case 2: {
                 printf("case 2\n");
-                  printLista(iniLista);
+                  listarPerguntas(iniLista);
                 break;
             }
             case 3: {
-                printf("case 3\n");
+                printf("Qual e o id que dejesa reover:\n");
+                scanf("%i", &idPergunta);
+                removerPerguntas(&iniLista, idPergunta);
+                printf("A remover pergunta...\n");
                 break;
             }
             default: {

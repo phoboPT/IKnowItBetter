@@ -24,30 +24,35 @@ int inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
     return 0;
 }
 
-
-
-void printLista(ELEMENTO *iniLista) {
+void listarPerguntas(ELEMENTO **iniLista){
     ELEMENTO *aux=NULL;
-    if(iniLista==NULL) {
+
+    if(iniLista==NULL){
         printf("Lista vazia\n");
-        return;
     }
-
-
-    for(aux=iniLista; aux!=NULL; aux=aux->seguintes) {
-        printf("%i %i\n", aux->info.categoria, aux->info.tipo);
+    printf("Categoria, Tipo\n");
+    for(aux=iniLista; aux!= NULL; aux=aux->seguintes){
+        printf("%i- %i\n", aux->info.categoria, aux->info.tipo);
     }
-
 }
 
-void adicionarPergunta( ELEMENTO ***iniLista) {
-    PERGUNTA aux;
-    printf("Categoria:\n");
-    scanf("%i",&aux.categoria);
-    printf("Tipo:\n");
-    scanf("%i", &aux.tipo);
-    inserirInLista(&iniLista, aux);
-
-
-
+int removerPerguntas(ELEMENTO **iniLista, int idPergunta){
+    ELEMENTO *aux=NULL, *ant=NULL;
+    aux=*iniLista;
+    while(aux!=NULL && aux->info.tipo == idPergunta){
+        ant=aux;
+        aux=aux->seguintes;
+    }
+    if(aux==NULL){
+        printf("A pergunta não existe\n");
+        return -1;
+    }
+    if(ant ==NULL){ //remove o primeiro elemento da lista
+        *iniLista=aux->seguintes;
+    }
+    else{
+        ant->seguintes=aux->seguintes;
+    }
+    free(aux);
+    return 0;
 }
