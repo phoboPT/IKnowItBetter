@@ -1,12 +1,20 @@
 #ifndef HELPER_H_INCLUDED
 #define HELPER_H_INCLUDED
 #define STRING_LENGHT 100
+#define TOTAL_CATEGORIAS 10
 #include <stdio.h>
 
 //Estruturas
 typedef struct pergunta {
+    int id;
+    int resposta;
+    char pergunta[STRING_LENGHT];
     int tipo;
     int categoria;
+    char op1[STRING_LENGHT];
+    char op2[STRING_LENGHT];
+    char op3[STRING_LENGHT];
+    char op4[STRING_LENGHT];
 } PERGUNTA;
 
 typedef struct elem {
@@ -14,21 +22,7 @@ typedef struct elem {
     struct elem *seguintes;
 } ELEMENTO;
 
-typedef struct opcao {
-    char op1[STRING_LENGHT];
-    char op2[STRING_LENGHT];
-    char op3[STRING_LENGHT];
-    char op4[STRING_LENGHT];
-
-} OPCAO;
-
-typedef struct escolaM {
-    OPCAO opcao;
-    int resposta;
-    char pergunta[STRING_LENGHT];
-} ESCOLHAM;
-
-typedef struct jogador{
+typedef struct jogador {
     char nome[STRING_LENGHT];
     char password[STRING_LENGHT];
     int tipo;
@@ -38,10 +32,12 @@ typedef struct jogador{
     char data[STRING_LENGHT];
     int valorAcomulado;
 
-}JOGADOR;
+} JOGADOR;
 
 
+//Funções
 int inserirInLista(ELEMENTO **iniLista, PERGUNTA info);
-void printLista(ELEMENTO *iniLista);
+void listarPerguntas(ELEMENTO *iniLista);
+int removerPerguntas(ELEMENTO **iniLista, int idPergunta);
 
 #endif // HELPER_H_INCLUDED
