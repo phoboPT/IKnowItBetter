@@ -7,7 +7,7 @@
 //Estruturas
 typedef struct pergunta {
     int id;
-    int resposta;
+    char resposta[STRING_LENGHT];
     char pergunta[STRING_LENGHT];
     int tipo;
     int categoria;

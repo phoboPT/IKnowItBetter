@@ -5,6 +5,7 @@
 #include "data.h"
 #define TOTAL_CATEGORIAS 10
 #define NUL '\0'
+
 int mainMenu() {
     int opcao=0;
     printf("------Bem-Vindo ao IKnowItBetter------\n\n");
@@ -44,11 +45,11 @@ int escolherCategoria(char categorias[][TOTAL_CATEGORIAS]) {
 PERGUNTA adicionarPergunta(char categorias[][TOTAL_CATEGORIAS]) {
     PERGUNTA pergunta;
     system ("cls");
-    printf("1 - Escolha multipla   2 - Resposta Direta   3 - Verdadeiro/Falso\n");
+    printf("1 - Escolha multipla   2 - Verdadeiro/Falso   3 - Resposta Direta\n");
     scanf("%i", &pergunta.tipo);
     pergunta.categoria=escolherCategoria(categorias);
 
-
+    //Escolha Multipla
     if(pergunta.tipo==1) {
         fflush(stdin);
 
@@ -58,30 +59,71 @@ PERGUNTA adicionarPergunta(char categorias[][TOTAL_CATEGORIAS]) {
         fflush(stdin);
         printf("%s",pergunta.pergunta);
 
-        printf("\nIntroduza a opção 1: ");
+        printf("\nIntroduza a opção A: ");
         fgets(pergunta.op1, STRING_LENGHT, stdin);
         pergunta.op1[strlen(pergunta.op1) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.op1);
 
-        printf("\nIntroduza a opção 2: ");
+        printf("\nIntroduza a opção B: ");
         fgets(pergunta.op2, STRING_LENGHT, stdin);
         pergunta.op2[strlen(pergunta.op2) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.op2);
 
-        printf("\nIntroduza a opção 3: ");
+        printf("\nIntroduza a opção C: ");
         fgets(pergunta.op3, STRING_LENGHT, stdin);
         pergunta.op3[strlen(pergunta.op3) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.op3);
 
-        printf("\nIntroduza a opção 4: ");
+        printf("\nIntroduza a opção D: ");
         fgets(pergunta.op4, STRING_LENGHT, stdin);
         pergunta.op4[strlen(pergunta.op4) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.op4);
 
+        printf("\nIntroduza a resposta A - B - C - D: ");
+        fgets(pergunta.op4, STRING_LENGHT, stdin);
+        pergunta.op4[strlen(pergunta.op4) - 1] = NUL;
+        fflush(stdin);
+        printf("%s",pergunta.resposta);
+
+    }
+    //Verdadeiro Falso
+    if(pergunta.tipo==2){
+        fflush(stdin);
+
+        printf("\nIntroduza a pergunta: ");
+        fgets(pergunta.pergunta, STRING_LENGHT, stdin);
+        pergunta.pergunta[strlen(pergunta.pergunta) - 1] = NUL;
+        fflush(stdin);
+        printf("%s",pergunta.pergunta);
+
+        printf("\nResposta V/F: ");
+        fgets(pergunta.op1, STRING_LENGHT, stdin);
+        pergunta.op1[strlen(pergunta.resposta) - 1] = NUL;
+        fflush(stdin);
+        printf("%s",pergunta.op1);
+
+
+
+    }
+    //Resposta Direta
+    if(pergunta.tipo==3){
+         fflush(stdin);
+
+        printf("\nIntroduza a pergunta: ");
+        fgets(pergunta.pergunta, STRING_LENGHT, stdin);
+        pergunta.pergunta[strlen(pergunta.pergunta) - 1] = NUL;
+        fflush(stdin);
+        printf("%s",pergunta.pergunta);
+
+        printf("\nResposta: ");
+        fgets(pergunta.op1, STRING_LENGHT, stdin);
+        pergunta.op1[strlen(pergunta.resposta) - 1] = NUL;
+        fflush(stdin);
+        printf("%s",pergunta.resposta);
     }
 
 

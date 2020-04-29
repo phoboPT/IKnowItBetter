@@ -4,7 +4,7 @@
 //funçoes
 
 int inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
-    ELEMENTO *novo=NULL;
+    ELEMENTO *novo=NULL ;
 
     novo =(ELEMENTO *)calloc(1, sizeof(ELEMENTO));
     if(novo==NULL) {
@@ -14,8 +14,8 @@ int inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
     novo->info=info;
     novo->seguintes=NULL;
     if(*iniLista ==NULL) {
-        info.id=1;
-        printf("%i",info.id);
+        novo->info.id = 1;
+        printf("%i", novo->info.id);
         *iniLista=novo;
     } else {
         novo -> seguintes=*iniLista;
@@ -34,28 +34,31 @@ void listarPerguntas(ELEMENTO *iniLista) {
     }
     printf("ID - Titulo\n");
     for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
-
-
         totRegistos++;
         printf("%i- %s\n", aux->info.id,aux->info.pergunta);
     }
-    do{
-    printf("Qual a pergunta que pretende ver em promenor?\n");
-    scanf("%i",&opcao);
-    if(opcao>totRegistos){
-        printf("ID inválido\n");
-    }
-    }while(opcao>totRegistos);
+    do {
+        printf("Qual a pergunta que pretende ver em promenor?\n");
+        scanf("%i",&opcao);
+        if(opcao>totRegistos) {
+            printf("ID inválido\n");
+        }
+    } while(opcao>totRegistos);
     i=0;
 
-    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
+    for(aux=iniLista; aux!= NULL; aux = aux->seguintes) {
         i++;
         if(i==opcao) {
-
-            printf("%i- %s\n", i,aux->info.pergunta);
+            printf("%i", aux->info.tipo);
+            mostraPergunta(aux->info);
             return;
         }
     }
+}
+
+void mostraPergunta(PERGUNTA *pergunta) {
+    printf("entrou");
+    printf("%i ", &pergunta);
 }
 
 int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
