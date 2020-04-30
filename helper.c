@@ -61,7 +61,7 @@ void listarPerguntas(ELEMENTO *iniLista) {
 int gravarPerguntas(ELEMENTO *iniLista) {
     ELEMENTO *aux=NULL;
     FILE *fp = NULL;
-    int totRegistos = 1;
+    int totRegistos = 0;
     fp = fopen("perguntas.dat", "wb");
     if (fp == NULL){
         printf("ERRO ao abrir o ficheiro\n");
@@ -70,17 +70,12 @@ int gravarPerguntas(ELEMENTO *iniLista) {
     if(iniLista==NULL) {
         printf("Sem dados para gravar\n");
     }
-    //for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
-      //  totRegistos=totRegistos+1;
-        //printf("Totoal-%i\n", &totRegistos);
-    //}
     for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
-
-        fwrite(&totRegistos, sizeof(int), 1, fp);
-//        fwrite(aux->info, sizeof(PERGUNTA), totRegistos, fp);
-
-
-        printf("Totoal-%i\n", &totRegistos);
+        totRegistos=totRegistos+1;
+    }
+    fwrite(&totRegistos, sizeof(int), 1, fp);
+    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
+        fwrite(&(aux->info), sizeof(PERGUNTA), 1, fp);
     }
     fclose(fp);
 return 0;
@@ -107,7 +102,7 @@ int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
 
 void carregarPerguntas(ELEMENTO **iniLista){
     FILE *fp = NULL;
-    //ELEMENTO *aux =NULL;
+    ELEMENTO *aux =NULL;
     int totRegistos = 0;
     int res =0;
     fp = fopen("perguntas.dat", "rb");
@@ -116,12 +111,11 @@ void carregarPerguntas(ELEMENTO **iniLista){
         printf("Nao abriu o ficheiro...\n");
         return 0;
     }
-    res = fread(&totRegistos, sizeof(int), 1, fp);
-    printf("Totoal-%i\n", &totRegistos);
-    //if (res > 0 && totRegistos >= 0)
-    //{
-      //  fread(aux, sizeof(PERGUNTA), totRegistos, fp);
-     //   inserirInLista(&iniLista, aux );
-    //}
+    res= fread(&totRegistos, sizeof(int), 1, fp);
+    if (res > 0 && totRegistos >= 0)
+    {
+      fread(aux, sizeof(PERGUNTA), totRegistos, fp);
+      //inserirInLista(&iniLista);
+    }
 }
 
