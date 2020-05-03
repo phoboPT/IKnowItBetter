@@ -75,7 +75,7 @@ int gravarPerguntas(ELEMENTO *iniLista) {
     if(iniLista==NULL) {
         printf("Sem dados para gravar\n");
     }
-<<<<<<< HEAD
+
     for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
         totRegistos=totRegistos+1;
         printf("Totoal-%i\n", totRegistos);
@@ -90,7 +90,7 @@ int gravarPerguntas(ELEMENTO *iniLista) {
     }
     fclose(fp);
     return 0;
-=======
+
     for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
         totRegistos=totRegistos+1;
     }
@@ -101,7 +101,7 @@ int gravarPerguntas(ELEMENTO *iniLista) {
     fclose(fp);
     printf("TOTREGISTOS: %i\n", totRegistos);
 return 0;
->>>>>>> 5b75f548d8b0d89d8f2abeceb1b038859df180ec
+
 }
 
 int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
@@ -126,44 +126,23 @@ int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
 
 void carregarPerguntas(ELEMENTO **iniLista) {
     FILE *fp = NULL;
-<<<<<<< HEAD
+
     PERGUNTA aux;
-
-
-=======
-    ELEMENTO *aux =NULL;
-    //PERGUNTA *info=NULL;
->>>>>>> 5b75f548d8b0d89d8f2abeceb1b038859df180ec
     int totRegistos = 0;
     int res =0;
     fp = fopen("perguntas.dat", "rb");
     if (fp == NULL) {
         printf("Nao abriu o ficheiro...\n");
-<<<<<<< HEAD
+
         return 0;
     }
     res = fread(&totRegistos, sizeof(int), 1, fp);
     printf("Totoal-%i\n", totRegistos);
     if (res > 0 && totRegistos >= 0) {
         fread(&aux, sizeof(PERGUNTA), totRegistos, fp);
+        printf("ID: %i Pergunta:%s Opcao1:%s Opcao2:%s\n", aux.id, aux.pergunta, aux.op1, aux.op2);
         inserirInLista(&iniLista, aux);
     }
-=======
-        return;
-    }
-    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
-        totRegistos=totRegistos+1;
-    }
-    printf("totRegistos: %i\n", totRegistos);
-    res= fread(&totRegistos, sizeof(int), 1, fp);
-    if (res > 0 && totRegistos >= 0)
-    {
-    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
-            fread(&(aux->info), sizeof(PERGUNTA), 1, fp);
-            }
-            //inserirInLista(&iniLista, *info);
-    }
-    fclose(fp);
->>>>>>> 5b75f548d8b0d89d8f2abeceb1b038859df180ec
-}
 
+    fclose(fp);
+}
