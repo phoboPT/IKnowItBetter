@@ -14,15 +14,15 @@
 	<stdio.h>
 	<stdlib.h>
 
-1588242108 source:/home/marcos/Documentos/IKnowItBetter/helper.c
+1588517206 source:/home/marcos/Documentos/IKnowItBetter/helper.c
 	"data.h"
 	<stdio.h>
 	<stdlib.h>
 
-1588174911 /home/marcos/Documentos/IKnowItBetter/data.h
+1588515101 /home/marcos/Documentos/IKnowItBetter/data.h
 	<stdio.h>
 
-1588174911 source:/home/marcos/Documentos/IKnowItBetter/main.c
+1588517269 source:/home/marcos/Documentos/IKnowItBetter/main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

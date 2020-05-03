@@ -37,7 +37,7 @@ void listarPerguntas(ELEMENTO *iniLista) {
 
 
         totRegistos++;
-        printf("%i- %s\n", aux->info.id,aux->info.pergunta);
+        printf("%i-%s\n", aux->info.id, aux->info.op1);
     }
     do{
     printf("Qual a pergunta que pretende ver em promenor?\n");
@@ -78,6 +78,7 @@ int gravarPerguntas(ELEMENTO *iniLista) {
         fwrite(&(aux->info), sizeof(PERGUNTA), 1, fp);
     }
     fclose(fp);
+    printf("TOTREGISTOS: %i\n", totRegistos);
 return 0;
 }
 int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
@@ -103,19 +104,27 @@ int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
 void carregarPerguntas(ELEMENTO **iniLista){
     FILE *fp = NULL;
     ELEMENTO *aux =NULL;
+    //PERGUNTA *info=NULL;
     int totRegistos = 0;
     int res =0;
     fp = fopen("perguntas.dat", "rb");
     if (fp == NULL)
     {
         printf("Nao abriu o ficheiro...\n");
-        return 0;
+        return;
     }
+    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
+        totRegistos=totRegistos+1;
+    }
+    printf("totRegistos: %i\n", totRegistos);
     res= fread(&totRegistos, sizeof(int), 1, fp);
     if (res > 0 && totRegistos >= 0)
     {
-      fread(aux, sizeof(PERGUNTA), totRegistos, fp);
-      //inserirInLista(&iniLista);
+    for(aux=iniLista; aux!= NULL; aux=aux->seguintes) {
+            fread(&(aux->info), sizeof(PERGUNTA), 1, fp);
+            }
+            //inserirInLista(&iniLista, *info);
     }
+    fclose(fp);
 }
 
