@@ -21,7 +21,7 @@ int mainMenu() {
 int adminMenu() {
     int adminOpcao=0;
 
-    system ("cls");
+    system ("clear");
     printf("------Parte Administrativa------\n");
     printf("1 - Criar perguntas\n");
     printf("2 - Listar perguntas\n");
@@ -44,19 +44,24 @@ int escolherCategoria(char categorias[][TOTAL_CATEGORIAS]) {
 
 PERGUNTA adicionarPergunta(char categorias[][TOTAL_CATEGORIAS]) {
     PERGUNTA pergunta;
+
     system ("cls");
     printf("1 - Escolha multipla   2 - Verdadeiro/Falso   3 - Resposta Direta\n");
+
+    system ("clear");
+    printf("1 - Escolha multipla   2 - Resposta Direta   3 - Verdadeiro/Falso\n");
+
     scanf("%i", &pergunta.tipo);
     pergunta.categoria=escolherCategoria(categorias);
 
     //Escolha Multipla
     if(pergunta.tipo==1) {
-        fflush(stdin);
+
 
         printf("\nIntroduza a pergunta: ");
         fgets(pergunta.pergunta, STRING_LENGHT, stdin);
         pergunta.pergunta[strlen(pergunta.pergunta) - 1] = NUL;
-        fflush(stdin);
+        fflush(stdin) ;
         printf("%s",pergunta.pergunta);
 
         printf("\nIntroduza a opção A: ");
@@ -126,8 +131,6 @@ PERGUNTA adicionarPergunta(char categorias[][TOTAL_CATEGORIAS]) {
         printf("%s",pergunta.resposta);
     }
 
-
-
     return pergunta;
 }
 
@@ -138,7 +141,7 @@ int main() {
     char nome[100], pass[100];
     ELEMENTO *iniLista=NULL;
     PERGUNTA aux;
-
+    carregarPerguntas(&iniLista);
     do {
         opcao=mainMenu();
         switch (opcao)        {
@@ -146,15 +149,20 @@ int main() {
             opcao=adminMenu();
             switch(opcao) {
             case 1: {
+                char escolha[10];
+                do{
+
                 printf("case 1\n");
                 aux = adicionarPergunta(categorias);
                 inserirInLista(&iniLista, aux);
+                 gravarPerguntas(iniLista);
+                 printf("Pretende inserir mais? S/N");
+                 scanf("%s", escolha);
+                 }while(strcmp(escolha,"n")!=0);
                 break;
             }
             case 2: {
                 printf("case 2\n");
-
-                //printLista(iniLista);
                 listarPerguntas(iniLista);
 
                 break;
@@ -166,13 +174,11 @@ int main() {
                 printf("A remover pergunta...\n");
                 break;
             }
-            default: {
+        default: {
                 printf("default\n");
                 break;
             }
-
             }
-            break;
         }
         case 2: {
             printf("Vamos la começar a  jogar\n");
@@ -192,3 +198,4 @@ int main() {
 
     return 0;
 }
+

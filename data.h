@@ -39,5 +39,7 @@ typedef struct jogador {
 int inserirInLista(ELEMENTO **iniLista, PERGUNTA info);
 void listarPerguntas(ELEMENTO *iniLista);
 int removerPerguntas(ELEMENTO **iniLista, int idPergunta);
+int gravarPerguntas(ELEMENTO *iniLista);
+void carregarPerguntas(ELEMENTO **iniLista);
 
 #endif // HELPER_H_INCLUDED
