@@ -141,7 +141,7 @@ int main() {
     char nome[100], pass[100];
     ELEMENTO *iniLista=NULL;
     PERGUNTA aux;
-    carregarPerguntas(&iniLista);
+    //carregarPerguntas(&iniLista);
     do {
         opcao=mainMenu();
         switch (opcao)        {
