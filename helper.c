@@ -2,10 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char categorias[][CAT_TAM]= {"Geografia", "Histï¿½ria", "Cinema", "Mï¿½sica", "Desporto", "Informï¿½tica", "Biologia", "Agricultura", "Matemï¿½tica","Cultura Geral"};
 
-char categorias[][CAT_TAM]= {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática","Cultura Geral"};
-
-//funçoes
+//funï¿½oes
 
 void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
     ELEMENTO *novo =NULL,*aux=NULL ;
@@ -39,7 +38,7 @@ void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
 
 void listarEscolhaMultipla(PERGUNTA pergunta) {
 
-    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s Opção 1: %s Opção2: %s Opção 3: %s Opção4: %s \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta, pergunta.op1,pergunta.op2,pergunta.op3,pergunta.op4);
+    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s Opï¿½ï¿½o 1: %s Opï¿½ï¿½o2: %s Opï¿½ï¿½o 3: %s Opï¿½ï¿½o4: %s \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta, pergunta.op1,pergunta.op2,pergunta.op3,pergunta.op4);
 }
 
 void listarVF(PERGUNTA pergunta) {
@@ -72,7 +71,7 @@ void listarPerguntas(ELEMENTO *iniLista,int totRegistos) {
         scanf("%i",&opcao);
         fflush(stdin);
         if(opcao>totRegistos) {
-            printf("ID inválido\n");
+            printf("ID invï¿½lido\n");
         }
     } while(opcao>totRegistos);
 
@@ -124,7 +123,7 @@ int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
         aux=aux->seguinte;
     }
     if(aux==NULL) {
-        printf("A pergunta não existe\n");
+        printf("A pergunta nï¿½o existe\n");
         return -1;
     }
     if(ant ==NULL) { //remove o primeiro elemento da lista
@@ -197,4 +196,3 @@ int carregarPerguntas(ELEMENTO **iniLista) {
 
     fclose(fp);
 }
-
