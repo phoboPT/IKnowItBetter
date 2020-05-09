@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char categorias[][CAT_TAM]= {"Geografia", "Hist�ria", "Cinema", "M�sica", "Desporto", "Inform�tica", "Biologia", "Agricultura", "Matem�tica","Cultura Geral"};
+char categorias[][CAT_TAM]= {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática","Cultura Geral"};
 
-//fun�oes
+//funçoes
 
 void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
     ELEMENTO *novo =NULL,*aux=NULL ;
@@ -36,16 +36,16 @@ void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
 
 void listarEscolhaMultipla(PERGUNTA pergunta) {
 
-    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s Op��o 1: %s Op��o2: %s Op��o 3: %s Op��o4: %s \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta, pergunta.op1,pergunta.op2,pergunta.op3,pergunta.op4);
+    printf("ID: %i\t Pergunta: %s \n Categoria: %s \nResposta: %s \nOpcao 1: %s \nOpcao 2: %s \nOpcao 3: %s \nOpcao 4: %s \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta, pergunta.op1,pergunta.op2,pergunta.op3,pergunta.op4);
 }
 
 void listarVF(PERGUNTA pergunta) {
-    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
+    printf("ID: %i\t Pergunta: %s \nCategoria: %s \nResposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
 }
 
 void listarRespostaDireta(PERGUNTA pergunta) {
 
-    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
+    printf("ID: %i\t Pergunta: %s \nCategoria: %s \nResposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
 }
 
 
@@ -69,7 +69,7 @@ void listarPerguntas(ELEMENTO *iniLista,int totRegistos) {
         scanf("%i",&opcao);
         fflush(stdin);
         if(opcao>totRegistos) {
-            printf("ID inv�lido\n");
+            printf("ID inválido\n");
         }
     } while(opcao>totRegistos);
 
@@ -110,7 +110,7 @@ void obterPergunta(ELEMENTO *iniLista,int totRegistos,PERGUNTA **pergunta){
         scanf("%i",&opcao);
         fflush(stdin);
         if(opcao>totRegistos) {
-            printf("ID inv�lido\n");
+            printf("ID inválido\n");
         }
     } while(opcao>totRegistos);
 
@@ -151,7 +151,7 @@ int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
         aux=aux->seguinte;
     }
     if(aux==NULL) {
-        printf("A pergunta n�o existe\n");
+        printf("A pergunta não existe\n");
         return -1;
     }
     if(ant ==NULL) { //remove o primeiro elemento da lista
