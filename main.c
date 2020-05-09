@@ -10,8 +10,8 @@
 int mainMenu() {
     int opcao=0;
     printf("------Bem-Vindo ao IKnowItBetter------\n\n");
-    printf("1 - Administraçâo das perguntas\n");
-    printf("2 - Comecar a jogar\n");
+    printf("1 - Administração\n");
+    printf("2 - Entrar no Jogo\n");
     printf("0 - Sair\n");
     do {
         printf ("Selecione uma opção: ");
@@ -23,7 +23,7 @@ int mainMenu() {
 
 //---------Admin menu---------
 int adminMenu() {
-    int opcao=0;
+    int opcaoAdmin=0;
 
     system ("cls");
     printf("------Parte Administrativa------\n");
@@ -34,11 +34,31 @@ int adminMenu() {
     printf("0 - Sair\n");
     do {
         printf ("Selecione uma opção: ");
-        scanf ("%d", &opcao);
+        scanf ("%d", &opcaoAdmin);
         fflush(stdin);
-    } while (opcao < 0 || opcao > 3);
+    } while (opcaoAdmin < 0 || opcaoAdmin > 3);
 
-    return opcao;
+    return opcaoAdmin;
+}
+
+//---------Jogador menu---------
+int jogadorMenu() {
+    int opcaoJogador=0;
+
+    system ("cls");
+    printf("------Vamos Começar a Jogar------\n");
+    printf("1 - Começar a jogar\n");
+    printf("2 - Ver Saldo\n");
+    printf("3 - Ver as ultimas 50 partidas\n");
+    printf("4 - Top 80 de jogadores com mais dinheiro\n");
+    printf("0 - Sair\n");
+    do {
+        printf ("Selecione uma opção: ");
+        scanf ("%d", &opcaoJogador);
+        fflush(stdin);
+    } while (opcaoJogador < 0 || opcaoJogador > 4);
+
+    return opcaoJogador;
 }
 
 int escolherCategoria(char categorias[][CAT_TAM]) {
@@ -157,7 +177,7 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
 int main() {
     setlocale(LC_ALL,"Portuguese");
     char categorias[][CAT_TAM]= {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática","Cultura Geral"};
-    int opcao=0, idPergunta,totalPerguntas=0;
+    int opcao=0, opcaoAdmin=0, opcaoJogador=0, idPergunta,totalPerguntas=0;
     char nome[100], pass[100];
     ELEMENTO *iniLista=NULL;
     PERGUNTA aux;
@@ -167,8 +187,8 @@ int main() {
         opcao=mainMenu();
         switch (opcao) {
         case 1: {
-            opcao=adminMenu();
-            switch(opcao) {
+            opcaoAdmin=adminMenu();
+            switch(opcaoAdmin) {
             case 1: {
                 char escolha;
                 do {
@@ -184,9 +204,7 @@ int main() {
                 break;
             }
             case 2: {
-
                 listarPerguntas(iniLista,totalPerguntas);
-
                 break;
             }
             case 3: {
@@ -207,20 +225,41 @@ int main() {
 
                 break;
             }
-            default: {
-
-
+            case 0: {
+                printf("A Sair da parte administrativa...\n");
+                libertaMemoria(&iniLista);
+                break;
             }
+            default: printf("Escolha uma nova opção\n");
             }
             break;
         }
         case 2: {
-            printf("Vamos la começar a  jogar\n");
-            printf("Realize o login do jogador:\n");
+           opcaoJogador=jogadorMenu();
+            switch(opcaoJogador) {
+            case 1: {
+                    printf("Entrou na 1\n");
+                }
+                break;
+            case 2: {
+                    printf("Entrou na 2\n");
+                }
+                break;
+            case 3: {
+                    printf("Entrou na 3\n");
+                }
+                break;
+            case 0: {
+                printf("A Sair do Login do jogador...\n");
+                libertaMemoria(&iniLista);
+                break;
+                }
+            default: printf("Escolha uma nova opção\n");
+            }
             break;
-        }
+}
         case 0: {
-            printf("A terminar o pograma...\n");
+            printf("A terminar o jogo...\n");
             libertaMemoria(&iniLista);
             break;
         }
@@ -229,6 +268,7 @@ int main() {
 
         }
         }
+
     } while(opcao!=0);
 
     return 0;
