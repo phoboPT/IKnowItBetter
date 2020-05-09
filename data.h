@@ -42,5 +42,7 @@ void listarPerguntas(ELEMENTO *iniLista, int totRegistos);
 int removerPerguntas(ELEMENTO **iniLista, int idPergunta);
 int gravarPerguntas(ELEMENTO *iniLista,int total);
 int carregarPerguntas(ELEMENTO **iniLista);
+void obterPergunta(ELEMENTO *iniLista,int totRegistos,PERGUNTA **pergunta);
+void libertaMemoria(ELEMENTO **iniFila);
 
 

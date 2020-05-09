@@ -34,20 +34,18 @@ void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
 }
 
 
-
-
 void listarEscolhaMultipla(PERGUNTA pergunta) {
 
     printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s Op��o 1: %s Op��o2: %s Op��o 3: %s Op��o4: %s \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta, pergunta.op1,pergunta.op2,pergunta.op3,pergunta.op4);
 }
 
 void listarVF(PERGUNTA pergunta) {
-
+    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
 }
 
 void listarRespostaDireta(PERGUNTA pergunta) {
 
- printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
+    printf("ID: %i\t Pergunta: %s Categoria: %s Resposta: %s  \n", pergunta.id,pergunta.pergunta,categorias[pergunta.categoria], pergunta.resposta);
 }
 
 
@@ -66,7 +64,7 @@ void listarPerguntas(ELEMENTO *iniLista,int totRegistos) {
 
             printf("%i - %s\n", aux->info.id, aux->info.pergunta);
         }
-        printf("total perguntas :%i\n",totRegistos);
+
         printf("Qual a pergunta que pretende ver em promenor?\n");
         scanf("%i",&opcao);
         fflush(stdin);
@@ -75,10 +73,7 @@ void listarPerguntas(ELEMENTO *iniLista,int totRegistos) {
         }
     } while(opcao>totRegistos);
 
-
-
     for(aux=iniLista; aux!= NULL; aux = aux->seguinte) {
-
 
         if(aux->info.id==opcao) {
             if(aux->info.tipo==1) {
@@ -94,6 +89,39 @@ void listarPerguntas(ELEMENTO *iniLista,int totRegistos) {
             return;
         }
     }
+}
+
+void obterPergunta(ELEMENTO *iniLista,int totRegistos,PERGUNTA **pergunta){
+     ELEMENTO *aux=NULL;
+    int opcao=0;
+
+    if(iniLista==NULL) {
+        printf("Lista vazia\n");
+        return;
+    }
+
+
+    do {
+        for(aux=iniLista; aux!= NULL; aux=aux->seguinte) {
+            printf("%i - %s\n", aux->info.id, aux->info.pergunta);
+        }
+
+        printf("Qual a pergunta que pretende editar?\n");
+        scanf("%i",&opcao);
+        fflush(stdin);
+        if(opcao>totRegistos) {
+            printf("ID inv�lido\n");
+        }
+    } while(opcao>totRegistos);
+
+    for(aux=iniLista; aux!= NULL; aux = aux->seguinte) {
+
+        if(aux->info.id==opcao) {
+           *pergunta = &aux->info;
+        }
+    }
+
+
 }
 
 int gravarPerguntas(ELEMENTO *iniLista,int total) {
@@ -196,3 +224,17 @@ int carregarPerguntas(ELEMENTO **iniLista) {
 
     fclose(fp);
 }
+
+//Libertar memoria
+void libertaMemoria(ELEMENTO **iniFila){
+    ELEMENTO *aux=NULL, *seguinte=NULL;
+    aux=*iniFila;
+    *iniFila=NULL;
+
+    while(aux!=NULL){
+        seguinte=aux->seguinte;
+        free(aux);
+        aux=seguinte;
+    }
+}
+

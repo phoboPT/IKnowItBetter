@@ -13,25 +13,32 @@ int mainMenu() {
     printf("1 - Administraçâo das perguntas\n");
     printf("2 - Comecar a jogar\n");
     printf("0 - Sair\n");
-    scanf("%i", &opcao);
-    fflush(stdin);
+    do {
+        printf ("Selecione uma opção: ");
+        scanf ("%d", &opcao);
+        fflush(stdin);
+    } while (opcao < 0 || opcao > 2);
     return opcao;
 }
 
 //---------Admin menu---------
 int adminMenu() {
-    int adminOpcao=0;
+    int opcao=0;
 
-    //system ("cls");
+    system ("cls");
     printf("------Parte Administrativa------\n");
     printf("1 - Criar perguntas\n");
     printf("2 - Listar perguntas\n");
-    printf("3 - Remover perguntas\n");
+    printf("3 - Editar perguntas\n");
+    printf("4 - Remover perguntas\n");
     printf("0 - Sair\n");
-    scanf("%i", &adminOpcao);
-    fflush(stdin);
+    do {
+        printf ("Selecione uma opção: ");
+        scanf ("%d", &opcao);
+        fflush(stdin);
+    } while (opcao < 0 || opcao > 3);
 
-    return adminOpcao;
+    return opcao;
 }
 
 int escolherCategoria(char categorias[][CAT_TAM]) {
@@ -39,17 +46,26 @@ int escolherCategoria(char categorias[][CAT_TAM]) {
     for(int i =0; i<CAT_NUM; i++) {
         printf("%i - %s\n",i+1, categorias[i]);
     }
-    scanf("%i", &opcao);
+    do {
+        printf ("Selecione uma opção: ");
+        scanf ("%d", &opcao);
+        fflush(stdin);
+    } while (opcao < 1 || opcao > CAT_NUM);
     return opcao-1;
 }
 
 PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
     PERGUNTA pergunta;
+    int opcao=0;
+    system ("cls");
+    printf("1 - Escolha multipla   2 - Resposta Direta   3 - Verdadeiro/Falso\n");
+    do {
+        printf ("Selecione uma opção: ");
+        scanf ("%d", &opcao);
+        fflush(stdin);
+    } while (opcao < 1 || opcao > CAT_NUM);
 
-    //system ("cls");
-    printf("1 - Escolha multipla   2 - Resposta Direta   3 - Verdadeiro/Falso");
-
-    scanf("%i", &pergunta.tipo);
+    pergunta.tipo=opcao;
     pergunta.categoria=escolherCategoria(categorias);
 
     //Escolha Multipla
@@ -96,8 +112,9 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
         pergunta.id=*totalPerguntas;
     }
 
-      //Resposta Direta
+    //Resposta Direta
     if(pergunta.tipo==2) {
+
         fflush(stdin);
         printf("\nIntroduza a pergunta: ");
         fgets(pergunta.pergunta, STRING_LENGHT, stdin);
@@ -106,10 +123,11 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
         printf("%s",pergunta.pergunta);
 
         printf("\nResposta: ");
-        fgets(pergunta.op1, STRING_LENGHT, stdin);
+        fgets(pergunta.resposta, STRING_LENGHT, stdin);
         pergunta.resposta[strlen(pergunta.resposta) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.resposta);
+
         (*totalPerguntas)++;
         pergunta.id=*totalPerguntas;
     }
@@ -124,14 +142,12 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
         printf("%s",pergunta.pergunta);
 
         printf("\nResposta V/F: ");
-        fgets(pergunta.op1, STRING_LENGHT, stdin);
-        pergunta.op1[strlen(pergunta.resposta) - 1] = NUL;
+        fgets(pergunta.resposta, STRING_LENGHT, stdin);
+        pergunta.resposta[strlen(pergunta.resposta) - 1] = NUL;
         fflush(stdin);
-        printf("%s",pergunta.op1);
+        printf("%s",pergunta.resposta);
         (*totalPerguntas)++;
         pergunta.id=*totalPerguntas;
-
-
     }
 
 
@@ -147,7 +163,6 @@ int main() {
     PERGUNTA aux;
     totalPerguntas=carregarPerguntas(&iniLista);
 
-
     do {
         opcao=mainMenu();
         switch (opcao) {
@@ -162,9 +177,10 @@ int main() {
                     printf("Pretende inserir mais? S/N");
                     scanf("%c", &escolha);
                     fflush(stdin);
-                    gravarPerguntas(iniLista,totalPerguntas);
+                    printf("escolha %c\n",escolha);
 
-                } while(escolha == "s");
+                } while(escolha == 's');
+                gravarPerguntas(iniLista,totalPerguntas);
                 break;
             }
             case 2: {
@@ -174,11 +190,21 @@ int main() {
                 break;
             }
             case 3: {
+                PERGUNTA * pergunta = NULL;
+                char teste="man isto e um teste";
+                obterPergunta(iniLista,totalPerguntas,&pergunta);
+                printf("%s\n", pergunta->pergunta);
+                *(pergunta->pergunta)=teste;
+                printf("%s\n", pergunta->pergunta);
+                break;
+            }
+            case 4: {
                 printf("Qual e o id que deseja remover:\n");
                 scanf("%i", &idPergunta);
                 fflush(stdin);
                 removerPerguntas(&iniLista, idPergunta);
                 printf("A remover pergunta...\n");
+
                 break;
             }
             default: {
@@ -195,6 +221,7 @@ int main() {
         }
         case 0: {
             printf("A terminar o pograma...\n");
+            libertaMemoria(&iniLista);
             break;
         }
         default: {
