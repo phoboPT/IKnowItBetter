@@ -146,6 +146,7 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
         pergunta.resposta[strlen(pergunta.resposta) - 1] = NUL;
         fflush(stdin);
         printf("%s",pergunta.resposta);
+
         (*totalPerguntas)++;
         pergunta.id=*totalPerguntas;
     }
@@ -157,7 +158,7 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM],int *totalPerguntas) {
 int main() {
     setlocale(LC_ALL,"Portuguese");
     char categorias[][CAT_TAM]= {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática","Cultura Geral"};
-    int opcao=0, idPergunta,totalPerguntas=0;
+    int opcao=0, idPergunta,totalPerguntas=0,opcaoAdmin=0;
     char nome[100], pass[100];
     ELEMENTO *iniLista=NULL;
     PERGUNTA aux;
@@ -167,8 +168,8 @@ int main() {
         opcao=mainMenu();
         switch (opcao) {
         case 1: {
-            opcao=adminMenu();
-            switch(opcao) {
+            opcaoAdmin=adminMenu();
+            switch(opcaoAdmin) {
             case 1: {
                 char escolha;
                 do {
@@ -177,7 +178,7 @@ int main() {
                     printf("Pretende inserir mais? S/N");
                     scanf("%c", &escolha);
                     fflush(stdin);
-                    printf("escolha %c\n",escolha);
+
 
                 } while(escolha == 's');
                 gravarPerguntas(iniLista,totalPerguntas);
@@ -191,11 +192,12 @@ int main() {
             }
             case 3: {
                 PERGUNTA * pergunta = NULL;
-                char teste="man isto e um teste";
+
                 obterPergunta(iniLista,totalPerguntas,&pergunta);
                 printf("%s\n", pergunta->pergunta);
-                *(pergunta->pergunta)=teste;
-                printf("%s\n", pergunta->pergunta);
+
+                strcpy(pergunta->pergunta, teste);
+                printf("%i\n", pergunta->id);
                 break;
             }
             case 4: {
