@@ -1,161 +1,159 @@
 #include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#define NUL '\0'
 char categorias[][CAT_TAM] = {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática", "Cultura Geral"};
 
 //funçoes
 
-void inserirInLista(ELEMENTO **iniLista, PERGUNTA info)
-{
+void inserirInLista(ELEMENTO **iniLista, PERGUNTA info) {
     ELEMENTO *novo = NULL, *aux = NULL;
 
     novo = (ELEMENTO *)calloc(1, sizeof(ELEMENTO));
-    if (novo == NULL)
-    {
+    if (novo == NULL) {
         printf("Erro ao reservar memoria....");
-        return -1;
+        return;
     }
     novo->info = info;
     novo->seguinte = NULL;
 
-    if (*iniLista == NULL)
-    {
+    if (*iniLista == NULL) {
 
         *iniLista = novo;
-    }
-    else
-    {
+    } else {
 
         aux = *iniLista;
-        while (aux->seguinte != NULL)
-        {
+        while (aux->seguinte != NULL) {
             aux = aux->seguinte;
         }
         aux->seguinte = novo;
     }
 
-    return 1;
 }
 
-void listarEscolhaMultipla(PERGUNTA pergunta)
-{
-
-    printf("ID: %i\t Pergunta: %s \n Categoria: %s \nResposta: %s \nOpcao 1: %s \nOpcao 2: %s \nOpcao 3: %s \nOpcao 4: %s \n", pergunta.id, pergunta.pergunta, categorias[pergunta.categoria], pergunta.resposta, pergunta.op1, pergunta.op2, pergunta.op3, pergunta.op4);
+void mostrarPertunta(PERGUNTA pergunta) {
+    system("cls");
+    printf("ID: %i\nPergunta: %s \nCategoria: %s \nResposta: %s \n",
+           pergunta.id, pergunta.pergunta, categorias[pergunta.categoria],pergunta.resposta);
+    if(pergunta.op1[0]!=NUL) {
+        printf("Opcao 1: %s\n",pergunta.op1);
+    }
+    if(pergunta.op2[0]!=NUL) {
+        printf("Opcao 2: %s\n",pergunta.op2);
+    }
+    if(pergunta.op3[0]!=NUL) {
+        printf("Opcao 3: %s\n",pergunta.op3);
+    }
+    if(pergunta.op4[0]!=NUL) {
+        printf("Opcao 4: %s\n",pergunta.op4);
+    }
+    getchar();
 }
 
-void listarVF(PERGUNTA pergunta)
-{
-    printf("ID: %i\t Pergunta: %s \nCategoria: %s \nResposta: %s  \n", pergunta.id, pergunta.pergunta, categorias[pergunta.categoria], pergunta.resposta);
-}
 
-void listarRespostaDireta(PERGUNTA pergunta)
-{
-
-    printf("ID: %i\t Pergunta: %s \nCategoria: %s \nResposta: %s  \n", pergunta.id, pergunta.pergunta, categorias[pergunta.categoria], pergunta.resposta);
-}
-
-void listarPerguntas(ELEMENTO *iniLista, int totRegistos)
-{
+void listarPerguntas(ELEMENTO *iniLista, int totRegistos) {
     ELEMENTO *aux = NULL;
-    int opcao = 0;
+    int opcao = 0,encontrou=0;
 
-    if (iniLista == NULL)
-    {
+    if (iniLista == NULL) {
         printf("Lista vazia\n");
         return;
     }
-    printf("ID - Titulo\n");
+    printf("ID - Titulo - Tipo\n");
 
-    do
-    {
-        for (aux = iniLista; aux != NULL; aux = aux->seguinte)
-        {
-            printf("%i - %s\n", aux->info.id, aux->info.pergunta);
-        }
+    for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
+        printf("%i - %s - %i\n", aux->info.id, aux->info.pergunta,aux->info.tipo);
+    }
 
+    do {
         printf("Qual a pergunta que pretende ver em promenor?\n");
         scanf("%i", &opcao);
         fflush(stdin);
-        if (opcao > totRegistos)
-        {
-            printf("ID inválido\n");
+        for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
+            if (aux->info.id == opcao) {
+                mostrarPertunta(aux->info);
+                encontrou=1;
+                return;
+            }
         }
-    } while (opcao > totRegistos);
 
-    for (aux = iniLista; aux != NULL; aux = aux->seguinte)
-    {
-
-        if (aux->info.id == opcao)
-        {
-            if (aux->info.tipo == 1)
-            {
-                listarEscolhaMultipla(aux->info);
-            }
-            if (aux->info.tipo == 2)
-            {
-                listarRespostaDireta(aux->info);
-            }
-            if (aux->info.tipo == 3)
-            {
-                listarVF(aux->info);
-            }
-
-            return;
-        }
-    }
+        printf("ID inválido\n");
+    } while(encontrou==0);
 }
 
-void obterPergunta(ELEMENTO *iniLista, int totRegistos, PERGUNTA **pergunta)
-{
+void editarPergunta(ELEMENTO *iniLista, int totRegistos) {
     ELEMENTO *aux = NULL;
-    int opcao = 0;
+    int opcao = 0,encontrou=0;
 
-    if (iniLista == NULL)
-    {
+    if (iniLista == NULL) {
         printf("Lista vazia\n");
         return;
     }
 
-    do
-    {
-        for (aux = iniLista; aux != NULL; aux = aux->seguinte)
-        {
-            printf("%i - %s\n", aux->info.id, aux->info.pergunta);
-        }
+    for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
+        printf("%i - %s\n", aux->info.id, aux->info.pergunta);
+    }
 
-        printf("Qual a pergunta que pretende editar?\n");
+    do {
+        printf("Qual a pergunta que pretende ver em promenor?\n");
         scanf("%i", &opcao);
         fflush(stdin);
-        if (opcao > totRegistos)
-        {
-            printf("ID inválido\n");
+        for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
+            if (aux->info.id == opcao) {
+                editar(&aux->info);
+                encontrou=1;
+                return;
+            }
         }
-    } while (opcao > totRegistos);
 
-    for (aux = iniLista; aux != NULL; aux = aux->seguinte)
-    {
-
-        if (aux->info.id == opcao)
-        {
-            *pergunta = &aux->info;
-        }
-    }
+        printf("ID inválido\n");
+    } while(encontrou==0);
 }
 
-int gravarPerguntas(ELEMENTO *iniLista, int total)
-{
+void editar(PERGUNTA *pergunta) {
+    char alterar;
+    system("cls");
+    printf("Pergunta id: %i\n", pergunta->id);
+
+    //alterar pergunta
+    printf("Pergunta: %s\n",pergunta->pergunta);
+    printf("Pretende alterar? s/n");
+    scanf("%c", &alterar);
+    fflush(stdin);
+    printf("%c",alterar);
+    if(alterar == 's') {
+        printf("\nIntroduza a pergunta:");
+        fgets(pergunta->pergunta, STRING_LENGHT, stdin);
+        pergunta->pergunta[strlen(pergunta->pergunta) - 1] = NUL;
+        fflush(stdin);
+    }
+    //alterar categoria
+    printf("Pergunta: %s\n",pergunta->categoria);
+    printf("Pretende alterar? s/n");
+    scanf("%c", &alterar);
+    fflush(stdin);
+    printf("%c",alterar);
+    if(alterar == 's') {
+
+        printf("\nIntroduza a pergunta:");
+        fgets(pergunta->pergunta, STRING_LENGHT, stdin);
+        pergunta->pergunta[strlen(pergunta->pergunta) - 1] = NUL;
+        fflush(stdin);
+    }
+    //alterar resposta
+
+}
+
+int gravarPerguntas(ELEMENTO *iniLista, int total) {
     ELEMENTO *aux = NULL;
     FILE *fp = NULL;
     fp = fopen("perguntas.dat", "wb");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Erro ao abrir o ficheiro\n");
         return -1;
     }
     fwrite(&total, sizeof(int), 1, fp);
-    for (aux = iniLista; aux != NULL; aux = aux->seguinte)
-    {
+    for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
         fwrite(&(aux->info), sizeof(PERGUNTA), 1, fp);
     }
 
@@ -165,34 +163,28 @@ int gravarPerguntas(ELEMENTO *iniLista, int total)
     return 0;
 }
 
-int removerPerguntas(ELEMENTO **iniLista, int idPergunta)
-{
+int removerPerguntas(ELEMENTO **iniLista, int idPergunta) {
     ELEMENTO *aux = NULL, *ant = NULL;
     aux = *iniLista;
-    while (aux != NULL && aux->info.id == idPergunta)
-    {
+    while (aux != NULL && (aux->info.id != idPergunta)) {
         ant = aux;
         aux = aux->seguinte;
     }
-    if (aux == NULL)
-    {
+    if (aux == NULL) {
         printf("A pergunta não existe\n");
         return -1;
     }
-    if (ant == NULL)
-    { //remove o primeiro elemento da lista
+    if (ant == NULL) {
+        //remove o primeiro elemento da lista
         *iniLista = aux->seguinte;
-    }
-    else
-    {
+    } else {
         ant->seguinte = aux->seguinte;
     }
     free(aux);
     return 0;
 }
 
-int carregarPerguntas(ELEMENTO **iniLista)
-{
+int carregarPerguntas(ELEMENTO **iniLista) {
     FILE *fp = NULL;
     PERGUNTA info;
     int totRegistos = 0;
@@ -200,52 +192,43 @@ int carregarPerguntas(ELEMENTO **iniLista)
 
     fp = fopen("perguntas.dat", "rb");
 
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Nao abriu o ficheiro...\n");
-        return;
+        return 0;
     }
 
     fread(&totRegistos, sizeof(int), 1, fp);
 
     printf("total perguntas: %i\n", totRegistos);
 
-    if (totRegistos > 0)
-    {
+    if (totRegistos > 0) {
 
-        for (int i = 0; i < totRegistos; i++)
-        {
+        for (int i = 0; i < totRegistos; i++) {
 
             fread(&info, sizeof(PERGUNTA), 1, fp);
             ELEMENTO *novo = NULL, *aux = NULL;
             novo = (ELEMENTO *)calloc(1, sizeof(ELEMENTO));
 
-            if (novo == NULL)
-            {
+            if (novo == NULL) {
                 printf("Erro ao reservar memoria....");
-                return;
+                return 0;
             }
             novo->info = info;
             novo->seguinte = NULL;
 
-            if (*iniLista == NULL)
-            {
+            if (*iniLista == NULL) {
 
                 *iniLista = novo;
-            }
-            else
-            {
+            } else {
 
                 aux = *iniLista;
-                while (aux->seguinte != NULL)
-                {
+                while (aux->seguinte != NULL) {
                     aux = aux->seguinte;
                 }
                 aux->seguinte = novo;
             }
 
-            if (info.id > res)
-            {
+            if (info.id > res) {
 
                 res = info.id;
             }
@@ -258,14 +241,12 @@ int carregarPerguntas(ELEMENTO **iniLista)
 }
 
 //Libertar memoria
-void libertaMemoria(ELEMENTO **iniFila)
-{
+void libertaMemoria(ELEMENTO **iniFila) {
     ELEMENTO *aux = NULL, *seguinte = NULL;
     aux = *iniFila;
     *iniFila = NULL;
 
-    while (aux != NULL)
-    {
+    while (aux != NULL) {
         seguinte = aux->seguinte;
         free(aux);
         aux = seguinte;
