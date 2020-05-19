@@ -1,4 +1,10 @@
+#ifndef	HELPER
+
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define NUL '\0'
 #define CAT_TAM 50
 #define STRING_LENGHT 100
 #define TOTAL_CATEGORIAS 10
@@ -17,10 +23,12 @@ typedef struct pergunta {
     char op4[STRING_LENGHT];
 } PERGUNTA;
 
-typedef struct elem {
+typedef struct elemPergunta {
     PERGUNTA info;
     struct elem *seguinte;
-} ELEMENTO;
+} LISTAPERGUNTA;
+
+
 
 typedef struct jogador {
     char nome[STRING_LENGHT];
@@ -32,17 +40,25 @@ typedef struct jogador {
     char data[STRING_LENGHT];
     int valorAcomulado;
 } JOGADOR;
-
+typedef struct elemUtilizador {
+    JOGADOR info;
+    struct elem *seguinte;
+} LISTAUTILIZADOR;
 
 
 
 //Funções
-void inserirInLista(ELEMENTO **iniLista, PERGUNTA info);
-void listarPerguntas(ELEMENTO *iniLista, int totRegistos);
-int removerPerguntas(ELEMENTO **iniLista, int idPergunta);
-int gravarPerguntas(ELEMENTO *iniLista,int total);
-int carregarPerguntas(ELEMENTO **iniLista);
-void obterPergunta(ELEMENTO *iniLista,int totRegistos,PERGUNTA **pergunta);
-void libertaMemoria(ELEMENTO **iniFila);
+void inserirListaPergunta(LISTAPERGUNTA **iniLista, PERGUNTA info);
+void inserirListaUtilizador(LISTAUTILIZADOR **iniLista, JOGADOR info);
+void listarPerguntas(LISTAPERGUNTA *iniLista, int totRegistos);
+int removerPerguntas(LISTAPERGUNTA **iniLista, int idPergunta);
+int gravarPerguntas(LISTAPERGUNTA *iniLista,int total);
+int gravarUtilizador(LISTAUTILIZADOR *iniLista, int total);
+int carregarPerguntas(LISTAPERGUNTA **iniLista);
+int carregarJogador(LISTAUTILIZADOR **iniLista);
+void obterPergunta(LISTAPERGUNTA *iniLista,int totRegistos,PERGUNTA **pergunta);
+void libertaMemoria(LISTAPERGUNTA **iniFila);
+void listar(LISTAPERGUNTA *iniLista);
+JOGADOR procurar(LISTAUTILIZADOR *iniLista, int totalUtilizadores);
 
-
+#endif // HELPER

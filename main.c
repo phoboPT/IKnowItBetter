@@ -45,7 +45,7 @@ int adminMenu() {
 int jogadorMenu() {
     int opcaoJogador = 0;
 
-    system("cls");
+    //system("cls");
     printf("------Vamos Começar a Jogar------\n");
     printf("1 - Começar a jogar\n");
     printf("2 - Ver Saldo\n");
@@ -157,14 +157,60 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
     return pergunta;
 }
 
+JOGADOR criarUtilizador(int *totalUtilizadores) {
+    JOGADOR jogador;
+    system("cls");
+    printf("--------------Utilizador não existe-------------------\n\n");
+    printf("--------------Criar Utilizador-------------------\n\n");
+    printf("Introduza o seu nome: ");
+    fgets(jogador.nome, STRING_LENGHT, stdin);
+    jogador.nome[strlen(jogador.nome) - 1] = NUL;
+    fflush(stdin);
+
+    printf("Introduza o username: ");
+    fgets(jogador.username, STRING_LENGHT, stdin);
+    jogador.username[strlen(jogador.username) - 1] = NUL;
+    fflush(stdin);
+
+    printf("Introduza o password: ");
+    fgets(jogador.password, STRING_LENGHT, stdin);
+    jogador.password[strlen(jogador.password) - 1] = NUL;
+    fflush(stdin);
+
+    printf("Introduza a sua nacionalidade: ");
+    fgets(jogador.nacionalidade, STRING_LENGHT, stdin);
+    jogador.nacionalidade[strlen(jogador.nacionalidade) - 1] = NUL;
+    fflush(stdin);
+
+    printf("Introduza a sua idade: ");
+    scanf("%i",&jogador.idade);
+
+    fflush(stdin);
+
+    //printf("Introduza o tipo: ");
+    //scanf("%i",&jogador.tipo);
+
+//    fflush(stdin);
+
+    jogador.tipo=2;
+
+    (*totalUtilizadores)++;
+
+
+    return jogador;
+
+}
+
 int main() {
     setlocale(LC_ALL,"Portuguese");
-    char categorias[][CAT_TAM] = {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemástica", "Cultura Geral"};
-    int opcao = 0, opcaoAdmin = 0, opcaoJogador = 0, idPergunta, totalPerguntas = 0;
-    char nome[100], pass[100];
-    ELEMENTO *iniLista = NULL;
-    PERGUNTA aux;
-    totalPerguntas = carregarPerguntas(&iniLista);
+    char categorias[][CAT_TAM] = {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática", "Cultura Geral"};
+    int opcao = 0, opcaoAdmin = 0, opcaoJogador = 0, idPergunta, totalPerguntas = 0,totalUtilizadores;
+
+    LISTAPERGUNTA *iniListaPergunta = NULL;
+    LISTAUTILIZADOR *iniListaUtilizador = NULL;
+
+    totalPerguntas = carregarPerguntas(&iniListaPergunta);
+    totalUtilizadores=carregarJogador(&iniListaUtilizador);
 
     do {
         opcao = mainMenu();
@@ -175,38 +221,42 @@ int main() {
             case 1: {
                 char escolha;
                 do {
+                    PERGUNTA aux;
                     aux = adicionarPergunta(categorias, &totalPerguntas);
-                    inserirInLista(&iniLista, aux);
+                    inserirListaPergunta(&iniListaPergunta, aux);
                     printf("Pretende inserir mais? S/N");
                     scanf("%c", &escolha);
                     fflush(stdin);
 
                 } while (escolha == 's');
-                gravarPerguntas(iniLista, totalPerguntas);
+                gravarPerguntas(iniListaPergunta, totalPerguntas);
                 break;
             }
             case 2: {
-                listarPerguntas(iniLista, totalPerguntas);
+                listarPerguntas(iniListaPergunta, totalPerguntas);
                 break;
             }
             case 3: {
-                editarPergunta(iniLista,totalPerguntas);
-
-                gravarPerguntas(iniLista, totalPerguntas);
+                editarPergunta(iniListaPergunta,totalPerguntas);
+                gravarPerguntas(iniListaPergunta, totalPerguntas);
                 break;
             }
             case 4: {
+                int removeuPergunta=0;
+                listar(iniListaPergunta);
                 printf("Qual e o id que deseja remover:\n");
                 scanf("%i", &idPergunta);
                 fflush(stdin);
-                removerPerguntas(&iniLista, idPergunta);
-                printf("A remover pergunta...\n");
-                gravarPerguntas(iniLista, totalPerguntas);
+                removeuPergunta= removerPerguntas(&iniListaPergunta, idPergunta);
+                if(removeuPergunta==0) {
+                    printf("A remover pergunta...\n");
+                    gravarPerguntas(iniListaPergunta, totalPerguntas);
+                }
                 break;
             }
             case 0: {
                 printf("A Sair da parte administrativa...\n");
-                libertaMemoria(&iniLista);
+                libertaMemoria(&iniListaPergunta);
                 break;
             }
             default:
@@ -215,14 +265,12 @@ int main() {
             break;
         }
         case 2: {
-            printf("Realize o seu Login\n");
-            printf("Nome de utilizador:\n");
-            fflush(stdin);
-            scanf("%s", &nome);
-            printf("Nome de password:\n");
-            fflush(stdin);
-            scanf("%s", &pass);
-            if (strcmp(nome, "nome") == 0 && (strcmp(pass, "pass") == 0)) {
+            JOGADOR utilizador;
+
+            utilizador = procurar(iniListaUtilizador,totalUtilizadores);
+            printf("%i",utilizador.tipo);
+
+            if (utilizador.tipo !=0) {
                 opcaoJogador = jogadorMenu();
                 switch (opcaoJogador) {
                 case 1: {
@@ -239,18 +287,25 @@ int main() {
                 break;
                 case 0: {
                     printf("A Sair do Login do jogador...\n");
-                    libertaMemoria(&iniLista);
+                    libertaMemoria(&iniListaPergunta);
                     break;
                 }
                 default:
                     printf("Escolha uma nova opção\n");
                 }
                 break;
+            } else {
+                JOGADOR utilizador;
+                utilizador=criarUtilizador(&totalUtilizadores);
+                inserirListaUtilizador(&iniListaUtilizador,utilizador);
+                gravarUtilizador(iniListaUtilizador, totalUtilizadores);
+
             }
+            break;
         }
         case 0: {
             printf("A terminar o jogo...\n");
-            libertaMemoria(&iniLista);
+            libertaMemoria(&iniListaPergunta);
             break;
         }
         default: {
