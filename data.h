@@ -40,6 +40,8 @@ typedef struct jogador {
     char data[STRING_LENGHT];
     int valorAcomulado;
 } JOGADOR;
+
+
 typedef struct elemUtilizador {
     JOGADOR info;
     struct elem *seguinte;
@@ -48,17 +50,27 @@ typedef struct elemUtilizador {
 
 
 //Funções
+//Inserir
 void inserirListaPergunta(LISTAPERGUNTA **iniLista, PERGUNTA info);
 void inserirListaUtilizador(LISTAUTILIZADOR **iniLista, JOGADOR info);
-void listarPerguntas(LISTAPERGUNTA *iniLista, int totRegistos);
+//Listar
+void listarPerguntas(LISTAPERGUNTA *iniLista);
+void listar(LISTAPERGUNTA *iniLista);
+//remover
 int removerPerguntas(LISTAPERGUNTA **iniLista, int idPergunta);
+//Gravar em ficheiro
 int gravarPerguntas(LISTAPERGUNTA *iniLista,int total);
 int gravarUtilizador(LISTAUTILIZADOR *iniLista, int total);
-int carregarPerguntas(LISTAPERGUNTA **iniLista);
+//Carregar ficheiro para memoria
+int carregarPerguntas(LISTAPERGUNTA **iniLista,int **totalPerguntas) ;
 int carregarJogador(LISTAUTILIZADOR **iniLista);
+//selecionar um elemento
 void obterPergunta(LISTAPERGUNTA *iniLista,int totRegistos,PERGUNTA **pergunta);
-void libertaMemoria(LISTAPERGUNTA **iniFila);
-void listar(LISTAPERGUNTA *iniLista);
-JOGADOR procurar(LISTAUTILIZADOR *iniLista, int totalUtilizadores);
+JOGADOR procurar(LISTAUTILIZADOR *iniLista);
+//Libertar memoria
+void libertaMemoriaPerguntas(LISTAPERGUNTA **iniFila);
+void libertaMemoriaJogadores(LISTAUTILIZADOR **iniFila);
+
+
 
 #endif // HELPER

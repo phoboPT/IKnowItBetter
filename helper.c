@@ -6,6 +6,7 @@ char categorias[][STRING_LENGHT] = {"Geografia", "História", "Cinema", "Música
 char tipo[][STRING_LENGHT]= {"Escolha Multipla","Resposta Direta", "Verdadeito/Falso"};
 //funçoes
 
+//Inserir nas listas
 void inserirListaPergunta(LISTAPERGUNTA **iniLista, PERGUNTA info) {
     LISTAPERGUNTA *novo = NULL, *aux = NULL;
 
@@ -56,6 +57,7 @@ void inserirListaUtilizador(LISTAUTILIZADOR **iniLista, JOGADOR info) {
 
 }
 
+//Listagens
 void mostrarPertunta(PERGUNTA pergunta) {
     system("cls");
     printf("ID: %i\nPergunta: %s \nCategoria: %s \nResposta: %s \n",
@@ -76,7 +78,7 @@ void mostrarPertunta(PERGUNTA pergunta) {
 }
 
 
-void listarPerguntas(LISTAPERGUNTA *iniLista, int totRegistos) {
+void listarPerguntas(LISTAPERGUNTA *iniLista) {
     LISTAPERGUNTA *aux = NULL;
     int opcao = 0,encontrou=0;
 
@@ -120,7 +122,8 @@ void listar(LISTAPERGUNTA *iniLista) {
     }
 }
 
-void editarPergunta(LISTAPERGUNTA *iniLista, int totRegistos) {
+//Editar
+void editarPergunta(LISTAPERGUNTA *iniLista) {
     LISTAPERGUNTA *aux = NULL;
     int opcao = 0,encontrou=0;
 
@@ -185,6 +188,7 @@ void editar(PERGUNTA *pergunta) {
 
 }
 
+//Gravar para ficheiro
 int gravarPerguntas(LISTAPERGUNTA *iniLista, int total) {
     LISTAPERGUNTA *aux = NULL;
     FILE *fp = NULL;
@@ -223,6 +227,7 @@ int gravarUtilizador(LISTAUTILIZADOR *iniLista, int total) {
     return 0;
 }
 
+//Remover da lista
 int removerPerguntas(LISTAPERGUNTA **iniLista, int idPergunta) {
     LISTAPERGUNTA *aux = NULL, *ant = NULL;
     aux = *iniLista;
@@ -244,7 +249,8 @@ int removerPerguntas(LISTAPERGUNTA **iniLista, int idPergunta) {
     return 0;
 }
 
-int carregarPerguntas(LISTAPERGUNTA **iniLista) {
+//Carregar para memoria do ficheiro
+int carregarPerguntas(LISTAPERGUNTA **iniLista, int **totalPerguntas) {
     FILE *fp = NULL;
     PERGUNTA info;
     int totRegistos = 0;
@@ -260,6 +266,7 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista) {
     fread(&totRegistos, sizeof(int), 1, fp);
 
     printf("total perguntas: %i\n", totRegistos);
+    (*totalPerguntas)=totRegistos;
 
     if (totRegistos > 0) {
         for (int i = 0; i < totRegistos; i++) {
@@ -282,6 +289,7 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista) {
                 aux = *iniLista;
                 while (aux->seguinte != NULL) {
                     aux = aux->seguinte;
+
                 }
                 aux->seguinte = novo;
             }
@@ -352,7 +360,7 @@ int carregarJogador(LISTAUTILIZADOR **iniLista) {
 }
 
 //Libertar memoria
-void libertaMemoria(LISTAPERGUNTA **iniFila) {
+void libertaMemoriaPerguntas(LISTAPERGUNTA **iniFila) {
     LISTAPERGUNTA *aux = NULL, *seguinte = NULL;
     aux = *iniFila;
     *iniFila = NULL;
@@ -364,15 +372,25 @@ void libertaMemoria(LISTAPERGUNTA **iniFila) {
     }
 }
 
-JOGADOR procurar(LISTAUTILIZADOR *iniLista,int totalUtilizadores) {
+void libertaMemoriaJogadores(LISTAUTILIZADOR **iniFila) {
+    LISTAUTILIZADOR *aux = NULL, *seguinte = NULL;
+    aux = *iniFila;
+    *iniFila = NULL;
+
+    while (aux != NULL) {
+        seguinte = aux->seguinte;
+        free(aux);
+        aux = seguinte;
+    }
+}
+
+//Selecionar
+JOGADOR procurar(LISTAUTILIZADOR *iniLista) {
     LISTAUTILIZADOR *aux = NULL;
     JOGADOR jogador;
-
     char nome[STRING_LENGHT], pass[STRING_LENGHT];
-
     if (iniLista == NULL) {
         printf("Lista vazia\n\n");
-
         return jogador;
     }
 
@@ -385,12 +403,11 @@ JOGADOR procurar(LISTAUTILIZADOR *iniLista,int totalUtilizadores) {
     scanf("%s", &pass);
     fflush(stdin);
 
+    jogador.tipo=2;
+
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
         if(strcmp(strlwr(nome),strlwr(aux->info.username))==0 && strcmp(strlwr(pass),strlwr(aux->info.password))==0) {
-            printf("entrou");
             jogador=aux->info;
-        } else {
-            jogador.tipo=0;
         }
 
     }

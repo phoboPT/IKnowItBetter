@@ -74,7 +74,7 @@ int escolherCategoria(char categorias[][CAT_TAM]) {
     return opcao - 1;
 }
 
-PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
+PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas,int *idPergunta) {
     PERGUNTA pergunta;
 
     pergunta.op1[0]=NUL;
@@ -128,7 +128,8 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
         fflush(stdin);
 
         (*totalPerguntas)++;
-        pergunta.id = *totalPerguntas;
+        (*idPergunta)++;
+        pergunta.id = *idPergunta;
     }
 
     //Resposta Direta
@@ -140,7 +141,8 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
         fflush(stdin);
 
         (*totalPerguntas)++;
-        pergunta.id = *totalPerguntas;
+        (*idPergunta)++;
+        pergunta.id = *idPergunta;
     }
     //Verdadeiro Falso
     if (pergunta.tipo == 3) {
@@ -151,7 +153,8 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
         fflush(stdin);
 
         (*totalPerguntas)++;
-        pergunta.id = *totalPerguntas;
+        (*idPergunta)++;
+        pergunta.id = *idPergunta;
     }
 
     return pergunta;
@@ -159,7 +162,7 @@ PERGUNTA adicionarPergunta(char categorias[][CAT_TAM], int *totalPerguntas) {
 
 JOGADOR criarUtilizador(int *totalUtilizadores) {
     JOGADOR jogador;
-    system("cls");
+    //system("cls");
     printf("--------------Utilizador não existe-------------------\n\n");
     printf("--------------Criar Utilizador-------------------\n\n");
     printf("Introduza o seu nome: ");
@@ -187,17 +190,37 @@ JOGADOR criarUtilizador(int *totalUtilizadores) {
 
     fflush(stdin);
 
+
     //printf("Introduza o tipo: ");
     //scanf("%i",&jogador.tipo);
 
-//    fflush(stdin);
+    //fflush(stdin);
 
-    jogador.tipo=2;
+    jogador.tipo=1;
 
     (*totalUtilizadores)++;
 
 
     return jogador;
+
+}
+
+
+int getNumPergunta(int perguntasFeitas[],int totalPerguntas,int max){
+    int valor=0,existe=0;
+    if(totalPerguntas==0){
+
+        return rand()%max;
+    }
+
+    for (int i=0;i<totalPerguntas;i++){
+        if(perguntasFeitas[i]==valor){
+            existe=1;
+        }
+
+    }
+
+    return 0;
 
 }
 
@@ -209,38 +232,48 @@ int main() {
     LISTAPERGUNTA *iniListaPergunta = NULL;
     LISTAUTILIZADOR *iniListaUtilizador = NULL;
 
-    totalPerguntas = carregarPerguntas(&iniListaPergunta);
+    JOGADOR utilizador1,utilizador2;
+
+
+    idPergunta = carregarPerguntas(&iniListaPergunta,&totalPerguntas);
+    printf("\n%i",totalPerguntas);
     totalUtilizadores=carregarJogador(&iniListaUtilizador);
 
     do {
         opcao = mainMenu();
         switch (opcao) {
+        //Administração
         case 1: {
             opcaoAdmin = adminMenu();
             switch (opcaoAdmin) {
+            //Inserir perguntas
             case 1: {
                 char escolha;
                 do {
                     PERGUNTA aux;
-                    aux = adicionarPergunta(categorias, &totalPerguntas);
+                    aux = adicionarPergunta(categorias, &totalPerguntas, &idPergunta);
                     inserirListaPergunta(&iniListaPergunta, aux);
                     printf("Pretende inserir mais? S/N");
                     scanf("%c", &escolha);
                     fflush(stdin);
 
                 } while (escolha == 's');
+                printf("\n%i",totalPerguntas);
                 gravarPerguntas(iniListaPergunta, totalPerguntas);
                 break;
             }
+            //Listar perguntas
             case 2: {
-                listarPerguntas(iniListaPergunta, totalPerguntas);
+                listarPerguntas(iniListaPergunta);
                 break;
             }
+            //Editar perguntas
             case 3: {
-                editarPergunta(iniListaPergunta,totalPerguntas);
+                editarPergunta(iniListaPergunta);
                 gravarPerguntas(iniListaPergunta, totalPerguntas);
                 break;
             }
+            //Remover perguntas
             case 4: {
                 int removeuPergunta=0;
                 listar(iniListaPergunta);
@@ -249,6 +282,7 @@ int main() {
                 fflush(stdin);
                 removeuPergunta= removerPerguntas(&iniListaPergunta, idPergunta);
                 if(removeuPergunta==0) {
+                    totalPerguntas--;
                     printf("A remover pergunta...\n");
                     gravarPerguntas(iniListaPergunta, totalPerguntas);
                 }
@@ -256,7 +290,7 @@ int main() {
             }
             case 0: {
                 printf("A Sair da parte administrativa...\n");
-                libertaMemoria(&iniListaPergunta);
+
                 break;
             }
             default:
@@ -264,48 +298,125 @@ int main() {
             }
             break;
         }
+
+        //Login
         case 2: {
-            JOGADOR utilizador;
-
-            utilizador = procurar(iniListaUtilizador,totalUtilizadores);
-            printf("%i",utilizador.tipo);
-
-            if (utilizador.tipo !=0) {
-                opcaoJogador = jogadorMenu();
-                switch (opcaoJogador) {
-                case 1: {
-                    printf("Entrou na 1\n");
-                }
-                break;
-                case 2: {
-                    printf("Entrou na 2\n");
-                }
-                break;
-                case 3: {
-                    printf("Entrou na 3\n");
-                }
-                break;
-                case 0: {
-                    printf("A Sair do Login do jogador...\n");
-                    libertaMemoria(&iniListaPergunta);
-                    break;
-                }
-                default:
-                    printf("Escolha uma nova opção\n");
-                }
-                break;
-            } else {
+            int comecar=0;
+            system("cls");
+            //jogador 1
+            utilizador1 = procurar(iniListaUtilizador);
+            if(utilizador1.tipo==2) {
                 JOGADOR utilizador;
-                utilizador=criarUtilizador(&totalUtilizadores);
-                inserirListaUtilizador(&iniListaUtilizador,utilizador);
+                utilizador1=criarUtilizador(&totalUtilizadores);
+                inserirListaUtilizador(&iniListaUtilizador,utilizador1);
                 gravarUtilizador(iniListaUtilizador, totalUtilizadores);
-
             }
+
+            printf("\nJogador 2\n");
+            //jogaodor 2
+            do {
+                utilizador2=procurar(iniListaUtilizador);
+
+                if(utilizador2.tipo==2) {
+                    JOGADOR utilizador;
+                    utilizador2=criarUtilizador(&totalUtilizadores);
+                    inserirListaUtilizador(&iniListaUtilizador,utilizador2);
+                    gravarUtilizador(iniListaUtilizador, totalUtilizadores);
+                }
+                printf("O jogador 2 tem de ser diferente do jogador 1\n");
+            } while(strcmp(utilizador1.username,utilizador2.username)==0);
+
+            //Se jogador existir
+            opcaoJogador = jogadorMenu();
+            switch (opcaoJogador) {
+            //Jogar
+            case 1: {
+                int valorCaixa=900,numeroPerguntas=0;
+
+
+                //setup das variaveis
+                utilizador1.valorAcomulado=0;
+                utilizador2.valorAcomulado=0;
+
+                printf("Entrou na 1\n");
+                printf("Quantas perguntas deseja que o jogo tenha? ");
+                scanf("%i",&numeroPerguntas);
+                fflush(stdin);
+                printf("Categorias existentes\n");
+
+                int perguntasFeitas[numeroPerguntas];
+
+                //Mostrar categorias
+                for (int i = 0; i < CAT_NUM; i++) {
+                    printf("%i - %s\n", i + 1, categorias[i]);
+                }
+
+                //Responder perguntas
+                do {
+                    int idPerguntaAtual=0,count=0;
+                    printf("Valor em caixa: %i\n",valorCaixa);
+                    printf("Valor do %s: %i\n",utilizador1.nome,utilizador1.valorAcomulado);
+                    printf("Valor do %s: %i\n",utilizador2.nome,utilizador2.valorAcomulado);
+
+                    idPerguntaAtual=getNumPergunta(perguntasFeitas,count,numeroPerguntas);
+
+
+                    printf("Pergunta nº %i",idPerguntaAtual);
+
+
+
+
+
+
+                    if(numeroPerguntas==1) {
+                        printf("ultima pergunta\n");
+                    }
+                    system("pause");
+                    perguntasFeitas[count]=idPerguntaAtual;
+                    printf("pergunta feita %i",perguntasFeitas[count]);
+                    count++;
+                    numeroPerguntas--;
+
+                } while(numeroPerguntas!=0);
+
+
+                break;
+            }
+            //Saldo
+            case 2: {
+                int opcao=0;
+
+                printf("Valor acumulado do jogador 1 é: %i\n",utilizador1.valorAcomulado);
+                printf("Valor acumulado do jogador 2 é: %i\n",utilizador2.valorAcomulado);
+
+
+                break;
+            }
+
+            case 3: {
+                printf("Entrou na 3\n");
+
+                break;
+            }
+            case 0: {
+                printf("A Sair do Login do jogador...\n");
+
+                break;
+            }
+            default:
+                printf("Escolha uma nova opção\n");
+
+                break;
+            }
+
+
+
             break;
         }
         case 0: {
             printf("A terminar o jogo...\n");
-            libertaMemoria(&iniListaPergunta);
+            libertaMemoriaPerguntas(&iniListaPergunta);
+            libertaMemoriaJogadores(&iniListaUtilizador);
             break;
         }
         default: {
