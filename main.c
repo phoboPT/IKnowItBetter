@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include <time.h>
 #include "data.h"
 #define NUL '\0'
 #define CAT_TAM 50
@@ -206,21 +207,62 @@ JOGADOR criarUtilizador(int *totalUtilizadores) {
 }
 
 
-int getNumPergunta(int perguntasFeitas[],int totalPerguntas,int max){
-    int valor=0,existe=0;
-    if(totalPerguntas==0){
+int getNumPergunta(int perguntasFeitas[],int count,int max,int totalPerguntas) {
+    int valor=0,existe=0,sair=0;
 
-        return rand()%max;
+
+    if(count==0) {
+
+        return rand()%totalPerguntas;
     }
 
-    for (int i=0;i<totalPerguntas;i++){
-        if(perguntasFeitas[i]==valor){
-            existe=1;
+    do {
+        valor=(rand()%totalPerguntas)+1;
+        sair=0,existe=0;
+        for (int i=0; i<count; i++) {
+
+            if(perguntasFeitas[i]==valor) {
+
+                existe=1;
+                break;
+            }
         }
 
+        if(existe!=1) {
+            sair=1;
+
+        }
+
+    } while(sair!=1);
+
+    return valor;
+
+}
+
+
+
+void responder(JOGADOR *util1,JOGADOR *util2,PERGUNTA pergunta,char char1,char char2) {
+    char jogador="";
+    printf("%s\n",pergunta.pergunta);
+    printf("%c",char1);
+    if(pergunta.tipo==1) {
+
+        printf("Opção 1\n",pergunta.op1);
+        printf("Opção 2\n",pergunta.op2);
+        printf("Opção 3\n",pergunta.op3);
+        printf("Opção 4\n",pergunta.op4);
+
     }
 
-    return 0;
+    do {
+        printf("Introduza o carater  \n ");
+        scanf("%c",&jogador);
+        fflush(stdin);
+
+    } while(!(jogador==char1 || jogador==char2));
+
+
+
 
 }
 
@@ -304,7 +346,7 @@ int main() {
             int comecar=0;
             system("cls");
             //jogador 1
-            utilizador1 = procurar(iniListaUtilizador);
+            utilizador1 = procurarJogador(iniListaUtilizador);
             if(utilizador1.tipo==2) {
                 JOGADOR utilizador;
                 utilizador1=criarUtilizador(&totalUtilizadores);
@@ -315,7 +357,7 @@ int main() {
             printf("\nJogador 2\n");
             //jogaodor 2
             do {
-                utilizador2=procurar(iniListaUtilizador);
+                utilizador2=procurarJogador(iniListaUtilizador);
 
                 if(utilizador2.tipo==2) {
                     JOGADOR utilizador;
@@ -331,19 +373,30 @@ int main() {
             switch (opcaoJogador) {
             //Jogar
             case 1: {
-                int valorCaixa=900,numeroPerguntas=0;
-
+                int valorCaixa=900,numeroPerguntas=0,count=0;
+                char char1="",char2="";
 
                 //setup das variaveis
                 utilizador1.valorAcomulado=0;
                 utilizador2.valorAcomulado=0;
 
-                printf("Entrou na 1\n");
-                printf("Quantas perguntas deseja que o jogo tenha? ");
-                scanf("%i",&numeroPerguntas);
-                fflush(stdin);
-                printf("Categorias existentes\n");
 
+                do {
+                    printf("Quantas perguntas deseja que o jogo tenha? ");
+                    scanf("%i",&numeroPerguntas);
+                    fflush(stdin);
+                } while(numeroPerguntas>=totalPerguntas);
+
+                printf("%s introduza o seu caracter\n",utilizador1.nome);
+                scanf("%c",&char1);
+                fflush(stdin);
+                do {
+                    printf("%s introduza o seu caracter\n",utilizador2.nome);
+                    scanf("%c",&char2);
+                    fflush(stdin);
+                } while(char1==char2);
+
+                printf("Categorias existentes\n");
                 int perguntasFeitas[numeroPerguntas];
 
                 //Mostrar categorias
@@ -352,20 +405,21 @@ int main() {
                 }
 
                 //Responder perguntas
+
                 do {
-                    int idPerguntaAtual=0,count=0;
+                    PERGUNTA pergunta;
+                    int idPerguntaAtual=0;
                     printf("Valor em caixa: %i\n",valorCaixa);
                     printf("Valor do %s: %i\n",utilizador1.nome,utilizador1.valorAcomulado);
                     printf("Valor do %s: %i\n",utilizador2.nome,utilizador2.valorAcomulado);
 
-                    idPerguntaAtual=getNumPergunta(perguntasFeitas,count,numeroPerguntas);
+                    //Obter pergunta
+                    do {
+                        idPerguntaAtual=getNumPergunta(perguntasFeitas,count,numeroPerguntas,totalPerguntas);
+                        pergunta=procurarPergunta(iniListaPergunta,idPerguntaAtual);
+                    } while(pergunta.id==0);
 
-
-                    printf("Pergunta nº %i",idPerguntaAtual);
-
-
-
-
+                    responder(&utilizador1,&utilizador2,pergunta,char1,char2);
 
 
                     if(numeroPerguntas==1) {
@@ -373,7 +427,7 @@ int main() {
                     }
                     system("pause");
                     perguntasFeitas[count]=idPerguntaAtual;
-                    printf("pergunta feita %i",perguntasFeitas[count]);
+
                     count++;
                     numeroPerguntas--;
 

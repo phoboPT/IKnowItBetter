@@ -62,11 +62,11 @@ int removerPerguntas(LISTAPERGUNTA **iniLista, int idPergunta);
 int gravarPerguntas(LISTAPERGUNTA *iniLista,int total);
 int gravarUtilizador(LISTAUTILIZADOR *iniLista, int total);
 //Carregar ficheiro para memoria
-int carregarPerguntas(LISTAPERGUNTA **iniLista,int **totalPerguntas) ;
+int carregarPerguntas(LISTAPERGUNTA **iniLista,int **totalPerguntas);
 int carregarJogador(LISTAUTILIZADOR **iniLista);
 //selecionar um elemento
-void obterPergunta(LISTAPERGUNTA *iniLista,int totRegistos,PERGUNTA **pergunta);
-JOGADOR procurar(LISTAUTILIZADOR *iniLista);
+PERGUNTA procurarPergunta(LISTAPERGUNTA *iniLista,int id);
+JOGADOR procurarJogador(LISTAUTILIZADOR *iniLista);
 //Libertar memoria
 void libertaMemoriaPerguntas(LISTAPERGUNTA **iniFila);
 void libertaMemoriaJogadores(LISTAUTILIZADOR **iniFila);

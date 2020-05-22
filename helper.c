@@ -385,10 +385,11 @@ void libertaMemoriaJogadores(LISTAUTILIZADOR **iniFila) {
 }
 
 //Selecionar
-JOGADOR procurar(LISTAUTILIZADOR *iniLista) {
+JOGADOR procurarJogador(LISTAUTILIZADOR *iniLista) {
     LISTAUTILIZADOR *aux = NULL;
     JOGADOR jogador;
     char nome[STRING_LENGHT], pass[STRING_LENGHT];
+    jogador.tipo=2;
     if (iniLista == NULL) {
         printf("Lista vazia\n\n");
         return jogador;
@@ -403,8 +404,6 @@ JOGADOR procurar(LISTAUTILIZADOR *iniLista) {
     scanf("%s", &pass);
     fflush(stdin);
 
-    jogador.tipo=2;
-
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
         if(strcmp(strlwr(nome),strlwr(aux->info.username))==0 && strcmp(strlwr(pass),strlwr(aux->info.password))==0) {
             jogador=aux->info;
@@ -413,4 +412,27 @@ JOGADOR procurar(LISTAUTILIZADOR *iniLista) {
     }
     return jogador;
 
+}
+
+PERGUNTA procurarPergunta(LISTAPERGUNTA *iniLista,int id) {
+    LISTAPERGUNTA *aux = NULL;
+    PERGUNTA pergunta;
+
+    pergunta.id=0;
+
+    if (iniLista == NULL) {
+        printf("Lista vazia\n\n");
+        return pergunta;
+    }
+
+
+    for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
+        if(aux->info.id==id) {
+            pergunta=aux->info;
+            return pergunta;
+        }
+
+    }
+
+    return pergunta;
 }
