@@ -207,7 +207,7 @@ JOGADOR criarUtilizador(int *totalUtilizadores) {
 }
 
 
-int getNumPergunta(int perguntasFeitas[],int count,int max,int totalPerguntas) {
+int getNumPergunta(int perguntasFeitas[],int count,int totalPerguntas) {
     int valor=0,existe=0,sair=0;
 
 
@@ -235,24 +235,39 @@ int getNumPergunta(int perguntasFeitas[],int count,int max,int totalPerguntas) {
 
     } while(sair!=1);
 
+
+
     return valor;
 
 }
 
+void printPergunta(PERGUNTA pergunta) {
 
-
-void responder(JOGADOR *util1,JOGADOR *util2,PERGUNTA pergunta,char char1,char char2) {
-    char jogador="";
+    printf("Categoria %s",categorias[pergunta.categoria]);
     printf("%s\n",pergunta.pergunta);
-    printf("%c",char1);
+
     if(pergunta.tipo==1) {
 
-        printf("Opção 1\n",pergunta.op1);
-        printf("Opção 2\n",pergunta.op2);
-        printf("Opção 3\n",pergunta.op3);
-        printf("Opção 4\n",pergunta.op4);
+        printf("A - %s\n",pergunta.op1);
+        printf("B - %s\n",pergunta.op2);
+        printf("C - %s\n",pergunta.op3);
+        printf("D - %s\n",pergunta.op4);
 
     }
+    if(pergunta.tipo==2) {
+        printf("Resposta directa\n");
+    }
+    if(pergunta.tipo==3) {
+        printf("Resposta V/F \n");
+    }
+
+
+}
+
+int responder(JOGADOR *util1,JOGADOR *util2,PERGUNTA pergunta,char char1,char char2) {
+    char jogador="";
+    int tentativas=0;
+    printPergunta(pergunta);
 
     do {
         printf("Introduza o carater  \n ");
@@ -263,7 +278,57 @@ void responder(JOGADOR *util1,JOGADOR *util2,PERGUNTA pergunta,char char1,char c
 
 
 
+    do {
+        char aux="";
 
+        if (jogador==char1) {
+
+            printf("Introduza a resposta %s \n",util1->nome);
+        } else {
+            printf("Introduza a resposta %s \n",util2->nome);
+        }
+
+
+        char resposta[10];
+
+        scanf("%s",resposta);
+        fflush(stdin);
+
+
+        //Acertou
+        if(strcmp(strlwr(pergunta.resposta),resposta)==0) {
+            if (jogador==char1) {
+
+                util1->valorAcomulado+=250;
+            } else {
+
+                util2->valorAcomulado+=250;
+            }
+
+
+            return 1;
+        }
+
+
+        if(tentativas!=1) {
+
+            if (jogador==char1) {
+
+                printf("Errou a pergunta, o %s pode responder\n",util2->nome);
+            } else {
+                printf("Errou a pergunta, o %s pode responder\n",util1->nome);
+            }
+        }
+
+        aux=char1;
+        char1=char2;
+        char2=aux;
+        tentativas++;
+
+
+    } while(tentativas!=2);
+
+    return 0;
 }
 
 int main() {
@@ -408,28 +473,35 @@ int main() {
 
                 do {
                     PERGUNTA pergunta;
-                    int idPerguntaAtual=0;
+                    int idPerguntaAtual=0,acertou=0;
                     printf("Valor em caixa: %i\n",valorCaixa);
                     printf("Valor do %s: %i\n",utilizador1.nome,utilizador1.valorAcomulado);
                     printf("Valor do %s: %i\n",utilizador2.nome,utilizador2.valorAcomulado);
 
                     //Obter pergunta
                     do {
-                        idPerguntaAtual=getNumPergunta(perguntasFeitas,count,numeroPerguntas,totalPerguntas);
+                        idPerguntaAtual=getNumPergunta(perguntasFeitas,count,totalPerguntas);
                         pergunta=procurarPergunta(iniListaPergunta,idPerguntaAtual);
                     } while(pergunta.id==0);
 
+
+
                     responder(&utilizador1,&utilizador2,pergunta,char1,char2);
+
+
 
 
                     if(numeroPerguntas==1) {
                         printf("ultima pergunta\n");
                     }
-                    system("pause");
                     perguntasFeitas[count]=idPerguntaAtual;
+                    for(int i=0; i<count; i++) {
+                        printf("pergunta %i ",perguntasFeitas[i]);
+                    }
 
                     count++;
                     numeroPerguntas--;
+                    system("pause");
 
                 } while(numeroPerguntas!=0);
 
