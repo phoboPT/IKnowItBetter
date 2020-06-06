@@ -1,5 +1,5 @@
 #include "data.h"
-
+#define CAT_NUM 10
 
 char categorias[][STRING_LENGHT] = {"Geografia", "História", "Cinema", "Música", "Desporto", "Informática", "Biologia", "Agricultura", "Matemática", "Cultura Geral"};
 char tipo[][STRING_LENGHT]= {"Escolha Multipla","Resposta Direta", "Verdadeito/Falso"};
@@ -53,7 +53,6 @@ void inserirListaUtilizador(LISTAUTILIZADOR **iniLista, JOGADOR info) {
         }
         aux->seguinte = novo;
     }
-
 }
 
 void inserirListaJogos(LISTAJOGO **iniLista, JOGO info) {
@@ -83,21 +82,31 @@ void inserirListaJogos(LISTAJOGO **iniLista, JOGO info) {
 
 //Listagens
 void mostrarPertunta(PERGUNTA pergunta) {
+
     system("cls");
-    printf("ID: %i\nPergunta: %s \nCategoria: %s \nResposta: %s \n",
-           pergunta.id, pergunta.pergunta, categorias[pergunta.categoria],pergunta.resposta);
+    printf("\t-----------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t----------------------------------------------------Detalhes da pergunta-----------------------------------------------------------\n");
+    printf("\t-----------------------------------------------------------------------------------------------------------------------------------\n\n");
+    printf("\t-----------------------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t|| ID   |Titulo   \t\t\t\t\t\t       |Tipo                  |Categoria        |Resposta        ||\n");
+    printf("\t--------|--------------------------------------------------------------|----------------------|-----------------|------------------\n");
+    printf("\t|| [%2i] | %-60s | %-20s | %-15s | %-15s||\n",pergunta.id, pergunta.pergunta,tipo[pergunta.tipo-1], categorias[pergunta.categoria],pergunta.resposta);
+    printf("\t-----------------------------------------------------------------------------------------------------------------------------------\n");
     if(pergunta.op1[0]!=NUL) {
-        printf("Opcao 1: %s\n",pergunta.op1);
+        printf("\t||Opções de resposta \t\t\t\t\t\t\t\t\t\t\t\t\t\t ||\n");
+        printf("\t||Opcao 1: %-60s \t\t\t\t\t\t\t ||\n",pergunta.op1);
     }
     if(pergunta.op2[0]!=NUL) {
-        printf("Opcao 2: %s\n",pergunta.op2);
+        printf("\t||Opcao 2: %-60s \t\t\t\t\t\t\t ||\n",pergunta.op2);
     }
     if(pergunta.op3[0]!=NUL) {
-        printf("Opcao 3: %s\n",pergunta.op3);
+        printf("\t||Opcao 3: %-60s \t\t\t\t\t\t\t ||\n",pergunta.op3);
     }
     if(pergunta.op4[0]!=NUL) {
-        printf("Opcao 4: %s\n",pergunta.op4);
+        printf("\t||Opcao 4: %-60s \t\t\t\t\t\t\t ||\n",pergunta.op4);
+        printf("\t-----------------------------------------------------------------------------------------------------------------------------------\n");
     }
+
     system("pause");
 }
 
@@ -110,14 +119,21 @@ void listarPerguntas(LISTAPERGUNTA *iniLista) {
         printf("Lista vazia\n");
         return;
     }
-    printf("ID     Titulo   \t\t\t  Tipo\n");
 
+    system("cls");
+    printf("\n\n\t------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t-----------------------------------------Listagem de todas as perguntas-------------------------------------------\n");
+    printf("\t------------------------------------------------------------------------------------------------------------------\n\n\n");
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
+    printf("\t|| ID   | Titulo  \t\t\t\t\t\t       | Tipo                 | Categoria      || \n");
+    printf("\t--------|--------------------------------------------------------------|----------------------|------------------\n");
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
-        printf("[%2i] - %-32s - %s\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1]);
+        printf("\t|| [%2i] | %-60s | %-20s | %-15s||\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1],categorias[aux->info.categoria]);
     }
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
 
     do {
-        printf("Qual a pergunta que pretende ver em promenor?\n");
+        printf("\tQual a pergunta que pretende ver em promenor?\n");
         scanf("%i", &opcao);
         fflush(stdin);
         for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
@@ -134,18 +150,24 @@ void listarPerguntas(LISTAPERGUNTA *iniLista) {
 
 void listar(LISTAPERGUNTA *iniLista) {
     LISTAPERGUNTA *aux = NULL;
+
     if (iniLista == NULL) {
         printf("Lista vazia\n");
         return;
     }
 
-    printf("ID     Titulo   \t\t\t  Tipo\n");
-
+    system("cls");
+    printf("\n\n\t------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t-----------------------------------------Listagem de todas as perguntas-------------------------------------------\n");
+    printf("\t------------------------------------------------------------------------------------------------------------------\n\n\n");
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
+    printf("\t|| ID   | Titulo  \t\t\t\t\t\t       | Tipo                 | Categoria      || \n");
+    printf("\t--------|--------------------------------------------------------------|----------------------|------------------\n");
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
-        printf("[%2i] - %-32s - %s\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1]);
+        printf("\t|| [%2i] | %-60s | %-20s | %-15s||\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1],categorias[aux->info.categoria]);
     }
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
 }
-
 
 void listarJogos(LISTAJOGO *iniLista) {
     LISTAJOGO *aux = NULL;
@@ -155,12 +177,15 @@ void listarJogos(LISTAJOGO *iniLista) {
         printf("Lista vazia\n");
         return;
     }
-    printf("Jogador 1 \t- Valor Ganho - Jogador 2 \t- Valor Ganho - Valor caixa - Data\n");
 
+
+    printf("\t----------------------------------------------------------------------------------------------\n");
+    printf("\t||Jogador 1 \t  | Valor Ganho | Jogador 2 \t  | Valor Ganho | Valor caixa | Data        ||\n");
+    printf("\t||----------------|-------------|-----------------|-------------|-------------|-------------||\n");
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
-        printf("%-15s - %10i$ - %-15s - %10i$ - %10i$ - %-10s  \n", aux->info.jogador1, aux->info.valorJog1, aux->info.jogador2,aux->info.valorJog2,aux->info.valorCaixa,aux->info.data);
+        printf("\t||%-15s | %10i$ | %-15s | %10i$ | %10i$ | %-10s  ||\n", aux->info.jogador1, aux->info.valorJog1, aux->info.jogador2,aux->info.valorJog2,aux->info.valorCaixa,aux->info.data);
     }
-
+    printf("\t----------------------------------------------------------------------------------------------\n");
 }
 
 void listarJogadores(LISTAUTILIZADOR *iniLista) {
@@ -171,32 +196,47 @@ void listarJogadores(LISTAUTILIZADOR *iniLista) {
         printf("Lista vazia\n");
         return;
     }
-    printf("Jogador \t- Idade - Nacionalidade   - Total Ganho - Data Ultimo Jogo\n");
 
+    printf("\t-------------------------------------------------------------------------------\n");
+    printf("\t||Jogador  \t  | Idade | Nacionalidade   | Total Ganho | Data Ultimo Jogo ||\n");
+    printf("\t||----------------|-------|-----------------|-------------|------------------||\n");
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
-        printf("%-15s - %-5i - %-15s - %10i$ - %s \n", aux->info.nome, aux->info.idade,aux->info.nacionalidade,aux->info.somatorioTotal,aux->info.data);
+        printf("\t||%-15s | %-4i  | %-15s | %10i$ | %16s ||\n", aux->info.nome, aux->info.idade,aux->info.nacionalidade,aux->info.somatorioTotal,aux->info.data);
     }
-
+    printf("\t-------------------------------------------------------------------------------\n");
 }
 
 //Editar
 void editarPergunta(LISTAPERGUNTA *iniLista) {
     LISTAPERGUNTA *aux = NULL;
     int opcao = 0,encontrou=0;
+    char edit;
 
     if (iniLista == NULL) {
-        printf("Lista vazia\n");
+        printf("\tLista vazia\n");
         return;
     }
 
-    printf("ID     Titulo   \t\t\t  Tipo\n");
-
+    system("cls");
+    printf("\n\n\t------------------------------------------------------------------------------------------------------------------\n");
+    printf("\t-----------------------------------------Listagem de todas as perguntas-------------------------------------------\n");
+    printf("\t------------------------------------------------------------------------------------------------------------------\n\n\n");
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
+    printf("\t|| ID   | Titulo  \t\t\t\t\t\t       | Tipo                 | Categoria      || \n");
+    printf("\t--------|--------------------------------------------------------------|----------------------|------------------\n");
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
-        printf("[%2i] - %-32s - %s\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1]);
+        printf("\t|| [%2i] | %-60s | %-20s | %-15s||\n", aux->info.id, aux->info.pergunta,tipo[aux->info.tipo-1],categorias[aux->info.categoria]);
+    }
+    printf("\t-----------------------------------------------------------------------------------------------------------------\n");
+    printf("\tPretende alterar alguma pergunta? s/n: ");
+    scanf("%c",&edit);
+
+    if(edit != 's') {
+        return;
     }
 
     do {
-        printf("Qual a pergunta que pretende ver em promenor?\n");
+        printf("\n\tQual é a pergunta que pretende editar?\n");
         scanf("%i", &opcao);
         fflush(stdin);
         for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
@@ -206,52 +246,119 @@ void editarPergunta(LISTAPERGUNTA *iniLista) {
                 return;
             }
         }
-
-        printf("ID inválido\n");
+        printf("\tID inválido\n");
     } while(encontrou==0);
 }
 
 void editar(PERGUNTA *pergunta) {
     char alterar;
+    int categoria=0;
     system("cls");
-    printf("Pergunta id: %i\n", pergunta->id);
+    printf("\tPergunta id: %i\n", pergunta->id);
 
     //alterar pergunta
-    printf("Pergunta: %s\n",pergunta->pergunta);
-    printf("Pretende alterar? s/n");
+    printf("\tPergunta: %s\n",pergunta->pergunta);
+    printf("\tPretende alterar? s/n: ");
     scanf("%c", &alterar);
     fflush(stdin);
-    printf("%c",alterar);
+
     if(alterar == 's') {
-        printf("\nIntroduza a pergunta:");
+        printf("\n\tIntroduza a pergunta: ");
         fgets(pergunta->pergunta, STRING_LENGHT, stdin);
         pergunta->pergunta[strlen(pergunta->pergunta) - 1] = NUL;
         fflush(stdin);
     }
     //alterar categoria
-    printf("Pergunta: %s\n",categorias[pergunta->categoria]);
-    printf("Pretende alterar? s/n");
+    printf("\tCategoria: %s\n",categorias[pergunta->categoria]);
+    printf("\tPretende alterar? s/n: ");
     scanf("%c", &alterar);
     fflush(stdin);
-    printf("%c",alterar);
-    if(alterar == 's') {
 
-        printf("\nIntroduza a pergunta:");
-        fgets(pergunta->pergunta, STRING_LENGHT, stdin);
-        pergunta->pergunta[strlen(pergunta->pergunta) - 1] = NUL;
-        fflush(stdin);
+    if(alterar == 's') {
+        for (int i = 0; i < CAT_NUM; i++) {
+            printf("\t%i - %s\n", i + 1, categorias[i]);
+        }
+        do {
+            printf("\tSelecione uma opção: ");
+            scanf("%i", &categoria);
+            fflush(stdin);
+        } while (categoria < 1 || categoria > 10);
+        pergunta->categoria=categoria-1;
     }
     //alterar resposta
+    //Tipo escolha multipla
+    if(pergunta->tipo==1) {
+        //Pergunta 1
+        printf("\tResposta A: %s\n",pergunta->op1);
+        printf("\tPretende alterar? s/n: ");
+
+        fflush(stdin);
+
+        if(alterar == 's') {
+            printf("\n\tIntroduza a pergunta:");
+            fgets(pergunta->op1, STRING_LENGHT, stdin);
+            pergunta->op1[strlen(pergunta->op1) - 1] = NUL;
+            fflush(stdin);
+        }
+        //Pergunta 2
+        printf("\tResposta B: %s\n",pergunta->op2);
+        printf("\tPretende alterar? s/n: ");
+        scanf("%c", &alterar);
+        fflush(stdin);
+
+        if(alterar == 's') {
+            printf("\n\tIntroduza a pergunta:");
+            fgets(pergunta->op2, STRING_LENGHT, stdin);
+            pergunta->op2[strlen(pergunta->op2) - 1] = NUL;
+            fflush(stdin);
+        }
+        //Pergunta 3
+        printf("\tResposta C: %s\n",pergunta->op3);
+        printf("\tPretende alterar? s/n: ");
+        scanf("%c", &alterar);
+        fflush(stdin);
+
+        if(alterar == 's') {
+            printf("\n\tIntroduza a pergunta:");
+            fgets(pergunta->op3, STRING_LENGHT, stdin);
+            pergunta->op3[strlen(pergunta->op3) - 1] = NUL;
+            fflush(stdin);
+        }
+        //Pergunta 4
+        printf("\tResposta D: %s\n",pergunta->op4);
+        printf("\tPretende alterar? s/n: ");
+        scanf("%c", &alterar);
+        fflush(stdin);
+
+        if(alterar == 's') {
+            printf("\n\tIntroduza a pergunta:");
+            fgets(pergunta->pergunta, STRING_LENGHT, stdin);
+            pergunta->op4[strlen(pergunta->op4) - 1] = NUL;
+            fflush(stdin);
+        }
+
+    }
+    //Tipo V/F e resposta direta
+    else {
+        printf("\tResposta: %s\n",pergunta->resposta);
+        printf("\tPretende alterar? s/n: ");
+        scanf("%c", &alterar);
+        fflush(stdin);
+
+        if(alterar == 's') {
+            printf("\n\tIntroduza a resposta:");
+            fgets(pergunta->pergunta, STRING_LENGHT, stdin);
+            pergunta->pergunta[strlen(pergunta->pergunta) - 1] = NUL;
+            fflush(stdin);
+        }
+    }
 
 }
 
 void editaJogador(LISTAUTILIZADOR *iniLista,JOGADOR jogador) {
     LISTAUTILIZADOR *aux = NULL;
-
-
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
         if(strcmp(strlwr(jogador.username),strlwr(aux->info.username))==0 && strcmp(strlwr(jogador.password),strlwr(aux->info.password))==0) {
-
             aux->info=jogador;
         }
     }
@@ -347,7 +454,6 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista, int **totalPerguntas) {
     int res = 0;
 
     fp = fopen("perguntas.dat", "rb");
-
     if (fp == NULL) {
         printf("Nao abriu o ficheiro...\n");
         return 0;
@@ -355,7 +461,6 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista, int **totalPerguntas) {
 
     fread(&totRegistos, sizeof(int), 1, fp);
 
-    printf("total perguntas: %i\n", totRegistos);
     (*totalPerguntas)=totRegistos;
 
     if (totRegistos > 0) {
@@ -363,7 +468,6 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista, int **totalPerguntas) {
             fread(&info, sizeof(PERGUNTA), 1, fp);
             LISTAPERGUNTA *novo = NULL, *aux = NULL;
             novo = (LISTAPERGUNTA *)calloc(1, sizeof(LISTAPERGUNTA));
-
             if (novo == NULL) {
                 printf("Erro ao reservar memoria....");
                 return 0;
@@ -379,13 +483,11 @@ int carregarPerguntas(LISTAPERGUNTA **iniLista, int **totalPerguntas) {
                 aux = *iniLista;
                 while (aux->seguinte != NULL) {
                     aux = aux->seguinte;
-
                 }
                 aux->seguinte = novo;
             }
 
             if (info.id > res) {
-
                 res = info.id;
             }
         }
@@ -410,8 +512,6 @@ int carregarJogador(LISTAUTILIZADOR **iniLista) {
     }
 
     fread(&totRegistos, sizeof(int), 1, fp);
-
-    printf("total jogadores: %i\n", totRegistos);
 
     if (totRegistos > 0) {
 
@@ -463,8 +563,6 @@ int carregarJogo(LISTAJOGO **iniLista) {
     }
 
     fread(&totRegistos, sizeof(int), 1, fp);
-
-    printf("total jogos: %i\n", totRegistos);
 
     if (totRegistos > 0) {
 
@@ -540,31 +638,28 @@ void libertaMemoriaJogo(LISTAJOGO **iniFila) {
 }
 
 //Selecionar
-JOGADOR  procurarJogador(LISTAUTILIZADOR *iniLista) {
+JOGADOR procurarJogador(LISTAUTILIZADOR *iniLista) {
     LISTAUTILIZADOR *aux = NULL;
     JOGADOR  jogador;
     char nome[STRING_LENGHT], pass[STRING_LENGHT];
-
-
-    printf("entrou\n");
-
+    jogador.tipo=2;
     if (iniLista == NULL) {
         printf("Lista vazia\n\n");
         return jogador;
     }
 
-    printf("Realize o seu Login\n");
-    printf("Nome de utilizador:\n");
+    printf("\n\tTem de fazer Login para poder continuar\n");
+    printf("\tUsername:");
     fflush(stdin);
     scanf("%s", &nome);
-    printf("Nome de password:\n");
+    printf("\tPassword:");
     fflush(stdin);
     scanf("%s", &pass);
     fflush(stdin);
 
     for (aux = iniLista; aux != NULL; aux = aux->seguinte) {
         if(strcmp(strlwr(nome),strlwr(aux->info.username))==0 && strcmp(strlwr(pass),strlwr(aux->info.password))==0) {
-            jogador=aux->info;
+            return aux->info;
         }
     }
     return jogador;
@@ -615,23 +710,20 @@ PERGUNTA procurarPerguntaCategoria(LISTAPERGUNTA *iniLista,int categoria) {
     return pergunta;
 }
 
-/* Bubble sort the given linked list */
+//Ordenação
 void ordenarUtilizadores(LISTAUTILIZADOR *iniLista) {
     int swapped, i;
     LISTAUTILIZADOR *ptr1;
     LISTAUTILIZADOR *ptr2;
     LISTAUTILIZADOR *lptr = NULL;
 
-    /* Checking for empty list */
     if (iniLista == NULL) {
-
         return;
     }
 
     do {
         swapped = 0;
         ptr1 = iniLista;
-
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
             if (strcmp(ptr1->info.nome, ptr2->info.nome)>0) {
@@ -650,9 +742,7 @@ void ordenarUtilizadoresValorDec(LISTAUTILIZADOR *iniLista) {
     LISTAUTILIZADOR *ptr2;
     LISTAUTILIZADOR *lptr = NULL;
 
-    /* Checking for empty list */
     if (iniLista == NULL) {
-
         return;
     }
 
@@ -662,8 +752,7 @@ void ordenarUtilizadoresValorDec(LISTAUTILIZADOR *iniLista) {
 
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
-            printf("%i",ptr1->info.somatorioTotal >ptr2->info.somatorioTotal);
-            if (ptr1->info.somatorioTotal > ptr2->info.somatorioTotal) {
+            if (ptr1->info.somatorioTotal < ptr2->info.somatorioTotal) {
                 swapUtilizador(ptr1, ptr1->seguinte);
                 swapped = 1;
             }
@@ -680,20 +769,16 @@ void ordenarUtilizadoresValorCres(LISTAUTILIZADOR *iniLista) {
     LISTAUTILIZADOR *ptr2;
     LISTAUTILIZADOR *lptr = NULL;
 
-    /* Checking for empty list */
     if (iniLista == NULL) {
-
         return;
     }
 
     do {
         swapped = 0;
         ptr1 = iniLista;
-
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
-             printf("%i",ptr1->info.somatorioTotal < ptr2->info.somatorioTotal);
-            if (ptr1->info.somatorioTotal < ptr2->info.somatorioTotal) {
+            if (ptr1->info.somatorioTotal > ptr2->info.somatorioTotal) {
                 swapUtilizador(ptr1, ptr1->seguinte);
                 swapped = 1;
             }
@@ -719,8 +804,7 @@ void ordenarJogoDataCres(LISTAJOGO *iniLista) {
         ptr1 = iniLista;
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
-            printf("%i",strcmp(ptr1->info.data, ptr2->info.data));
-            if (strcmp(ptr1->info.data, ptr2->info.data)<0) {
+            if (strcmp(ptr1->info.data, ptr2->info.data)>0) {
                 swapJogo(ptr1, ptr1->seguinte);
                 swapped = 1;
             }
@@ -747,8 +831,7 @@ void ordenarJogoDataDec(LISTAJOGO *iniLista) {
         ptr1 = iniLista;
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
-            printf("%i",strcmp(ptr1->info.data, ptr2->info.data));
-            if (strcmp(ptr1->info.data, ptr2->info.data)>0) {
+            if (strcmp(ptr1->info.data, ptr2->info.data)<0) {
                 swapJogo(ptr1, ptr1->seguinte);
                 swapped = 1;
             }
@@ -774,7 +857,6 @@ void ordenarJogoValor(LISTAJOGO *iniLista) {
         ptr1 = iniLista;
         while (ptr1->seguinte != lptr) {
             ptr2=ptr1->seguinte;
-
             if (ptr1->info.valorCaixa > ptr2->info.valorCaixa) {
                 swapJogo(ptr1, ptr1->seguinte);
                 swapped = 1;
@@ -794,7 +876,6 @@ void swapJogo( LISTAJOGO *a,  LISTAJOGO *b) {
 /* function to swap data of two nodes a and b*/
 void swapUtilizador( LISTAUTILIZADOR *a,  LISTAUTILIZADOR *b) {
     JOGADOR temp = a->info;
-
     a->info = b->info;
     b->info = temp;
 }

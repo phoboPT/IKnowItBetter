@@ -9,8 +9,6 @@
 #define TOTAL_CATEGORIAS 10
 
 //Estruturas
-
-
 typedef struct pergunta {
     int id;
     char resposta[STRING_LENGHT];
@@ -59,8 +57,6 @@ typedef struct elemJogo {
     JOGO info;
     struct elem *seguinte;
 } LISTAJOGO;
-
-
 
 //Funções
 //Inserir
